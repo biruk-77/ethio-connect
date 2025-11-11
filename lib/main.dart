@@ -5,17 +5,47 @@ import 'package:intl/date_symbol_data_local.dart';
 
 import 'l10n/app_localizations.dart';
 import 'l10n/custom_localizations.dart';
-import 'l10n/l10n.dart';
 import 'providers/locale_provider.dart';
 import 'providers/theme_provider.dart';
-import 'services/auth_service.dart';
-import 'screens/login_screen.dart';
+import 'providers/landing_provider.dart';
+import 'services/role_service.dart';
+import 'services/auth/auth_wrapper.dart';
+import 'screens/auth/unified_login_screen.dart';
+import 'screens/auth/register_screen.dart';
+import 'screens/verification/verification_center_screen.dart';
+import 'screens/verification/submit_verification_screen.dart';
+import 'screens/posts/create_post_screen.dart';
 import 'screens/home_screen.dart';
+import 'screens/landing/landing_screen.dart';
+import 'screens/settings_screen.dart';
+import 'screens/profile/profile_screen.dart';
+import 'screens/profile/edit_profile_screen.dart';
+import 'screens/profile/verification_history_screen.dart';
+import 'screens/messaging/conversations_screen.dart';
+import 'screens/notifications/notifications_screen.dart';
+import 'screens/favorites/favorites_screen.dart';
+import 'models/auth/user_model.dart';
+import 'services/favorites_service.dart';
+import 'services/notification_service.dart';
 import 'theme/themes.dart';
+import 'utils/app_logger.dart';
+import 'utils/config_debug.dart';
 
 Future<void> main() async {
+  AppLogger.section('ETHIOCONNECT APP STARTING');
+  AppLogger.startup('Initializing Flutter bindings...');
   WidgetsFlutterBinding.ensureInitialized();
   
+  // DEBUG: Print configuration
+  ConfigDebug.printConfig();
+  ConfigDebug.checkForTypos();
+  
+  // Initialize services (Socket will connect after auth)
+  AppLogger.info('Initializing favorites and notification services...');
+  FavoritesService().initialize();
+  NotificationService().initialize();
+  
+  AppLogger.info('Initializing date formatting for all locales...');
   // Initialize date formatting for all supported locales
   await Future.wait([
     initializeDateFormatting('en', null),
@@ -25,12 +55,16 @@ Future<void> main() async {
     initializeDateFormatting('ti', null),
   ]);
   
+  AppLogger.success('All locales initialized');
+  AppLogger.info('Starting app with MultiProvider...');
+  
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => LocaleProvider()),
         ChangeNotifierProvider(create: (_) => ThemeProvider()),
-        ChangeNotifierProvider(create: (_) => AuthService()),
+        ChangeNotifierProvider(create: (_) => LandingProvider()),
+        ChangeNotifierProvider(create: (_) => RoleService()),
       ],
       child: const MyApp(),
     ),
@@ -72,49 +106,32 @@ class MyApp extends StatelessWidget {
         Locale('ti'),
       ],
       home: const AuthWrapper(),
-    );
-  }
-}
-
-class AuthWrapper extends StatelessWidget {
-  const AuthWrapper({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final authService = Provider.of<AuthService>(context);
-
-    return StreamBuilder<AuthStatus>(
-      stream: authService.authStatusStream,
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Scaffold(
-            body: Center(
-              child: CircularProgressIndicator(),
-            ),
+      routes: {
+        '/auth/login': (context) => const UnifiedLoginScreen(),
+        '/auth/register': (context) => const RegisterScreen(),
+        '/verification/center': (context) => const VerificationCenterScreen(),
+        '/verification/submit': (context) => const SubmitVerificationScreen(),
+        '/posts/create': (context) => const CreatePostScreen(),
+        '/messages': (context) => const ConversationsScreen(),
+        '/notifications': (context) => const NotificationsScreen(),
+        '/favorites': (context) => const FavoritesScreen(),
+        '/home': (context) => const HomeScreen(),
+        '/landing': (context) => const LandingScreen(),
+        '/settings': (context) => const SettingsScreen(),
+        '/profile': (context) => const ProfileScreen(),
+        '/profile/verifications': (context) => const VerificationHistoryScreen(),
+      },
+      onGenerateRoute: (settings) {
+        if (settings.name == '/profile/edit') {
+          final user = settings.arguments as User?;
+          return MaterialPageRoute(
+            builder: (context) => EditProfileScreen(user: user),
           );
         }
-
-        if (snapshot.hasData) {
-          final authStatus = snapshot.data!;
-          
-          // Set global l10n
-          setL10n(AppLocalizations.of(context)!);
-
-          switch (authStatus) {
-            case AuthStatus.authenticated:
-              return const HomeScreen();
-            case AuthStatus.needsProfileCompletion:
-              // TODO: Create profile completion screen
-              return const HomeScreen();
-            case AuthStatus.unauthenticated:
-            case AuthStatus.unknown:
-            default:
-              return const LoginScreen();
-          }
-        }
-
-        return const LoginScreen();
+        return null;
       },
     );
   }
 }
+
+// AuthWrapper is now imported from services/auth/auth_wrapper.dart

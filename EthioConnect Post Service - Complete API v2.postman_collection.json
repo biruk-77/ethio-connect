@@ -1,0 +1,2798 @@
+{
+	"info": {
+		"_postman_id": "496e70e4-1220-48ff-aab0-eb854969f245",
+		"name": "EthioConnect Post Service - Complete API v2",
+		"description": "Complete API collection with enhanced filtering, search, analytics, and caching. All endpoints require JWT authentication.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "48392697",
+		"_collection_link": "https://lunar-eclipse-303269.postman.co/workspace/My-Workspace~2fca546d-3b99-4f54-8acb-523fdaa9f75b/collection/24624704-496e70e4-1220-48ff-aab0-eb854969f245?action=share&source=collection_link&creator=48392697"
+	},
+	"item": [
+		{
+			"name": "👤 User Endpoints",
+			"item": [
+				{
+					"name": "📝 Posts",
+					"item": [
+						{
+							"name": "Create Post",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": "Request content type"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{jwt_token}}",
+										"description": "JWT authentication"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"categoryId\": \"550e8400-e29b-41d4-a716-446655440021\",\n  \"postType\": \"offer\",\n  \"title\": \"Senior Full-Stack Developer Position\",\n  \"description\": \"Looking for experienced developer with 5+ years experience\",\n  \"price\": 75000,\n  \"regionId\": \"550e8400-e29b-41d4-a716-446655440001\",\n  \"cityId\": \"550e8400-e29b-41d4-a716-446655440011\",\n  \"tags\": [\n    \"developer\",\n    \"full-stack\",\n    \"react\",\n    \"nodejs\"\n  ],\n  \"isActive\": true,\n  \"expiresAt\": \"2025-12-31T23:59:59Z\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/posts",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"posts"
+									]
+								},
+								"description": "Create a new post with category, location, and pricing"
+							},
+							"response": []
+						},
+						{
+							"name": "Get All Posts - Enhanced Filters",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": "Request content type"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{jwt_token}}",
+										"description": "JWT authentication"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/posts?page=1&limit=10&sortBy=createdAt&sortOrder=DESC",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"posts"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1",
+											"description": "Page number"
+										},
+										{
+											"key": "limit",
+											"value": "10",
+											"description": "Items per page"
+										},
+										{
+											"key": "categoryId",
+											"value": "550e8400-e29b-41d4-a716-446655440021",
+											"description": "Filter by category UUID",
+											"disabled": true
+										},
+										{
+											"key": "regionId",
+											"value": "550e8400-e29b-41d4-a716-446655440001",
+											"description": "Filter by region UUID",
+											"disabled": true
+										},
+										{
+											"key": "cityId",
+											"value": "550e8400-e29b-41d4-a716-446655440011",
+											"description": "Filter by city UUID",
+											"disabled": true
+										},
+										{
+											"key": "userId",
+											"value": "",
+											"description": "Filter by user UUID",
+											"disabled": true
+										},
+										{
+											"key": "postType",
+											"value": "offer",
+											"description": "Filter by type: offer or request",
+											"disabled": true
+										},
+										{
+											"key": "priceMin",
+											"value": "1000",
+											"description": "Minimum price",
+											"disabled": true
+										},
+										{
+											"key": "priceMax",
+											"value": "100000",
+											"description": "Maximum price",
+											"disabled": true
+										},
+										{
+											"key": "isActive",
+											"value": "true",
+											"description": "Active posts only",
+											"disabled": true
+										},
+										{
+											"key": "search",
+											"value": "developer",
+											"description": "Search in title and description",
+											"disabled": true
+										},
+										{
+											"key": "startDate",
+											"value": "2025-01-01",
+											"description": "Created after date",
+											"disabled": true
+										},
+										{
+											"key": "endDate",
+											"value": "2025-12-31",
+											"description": "Created before date",
+											"disabled": true
+										},
+										{
+											"key": "featured",
+											"value": "true",
+											"description": "🆕 Featured posts only",
+											"disabled": true
+										},
+										{
+											"key": "verified",
+											"value": "true",
+											"description": "🆕 Verified posts only",
+											"disabled": true
+										},
+										{
+											"key": "expiringSoon",
+											"value": "true",
+											"description": "🆕 Posts expiring in next 7 days",
+											"disabled": true
+										},
+										{
+											"key": "urgent",
+											"value": "true",
+											"description": "🆕 Urgent posts only",
+											"disabled": true
+										},
+										{
+											"key": "sortBy",
+											"value": "createdAt",
+											"description": "Sort field"
+										},
+										{
+											"key": "sortOrder",
+											"value": "DESC",
+											"description": "Sort order: ASC or DESC"
+										}
+									]
+								},
+								"description": "Get all posts with comprehensive filtering including featured, verified, expiring soon, and urgent filters"
+							},
+							"response": []
+						},
+						{
+							"name": "Get Post by ID",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": "Request content type"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{jwt_token}}",
+										"description": "JWT authentication"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/posts/550e8400-e29b-41d4-a716-446655440100",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"posts",
+										"550e8400-e29b-41d4-a716-446655440100"
+									]
+								},
+								"description": "Get detailed post information"
+							},
+							"response": []
+						},
+						{
+							"name": "Get Posts by User",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": "Request content type"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{jwt_token}}",
+										"description": "JWT authentication"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/posts/user/550e8400-e29b-41d4-a716-446655440001?page=1&limit=10",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"posts",
+										"user",
+										"550e8400-e29b-41d4-a716-446655440001"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "limit",
+											"value": "10"
+										}
+									]
+								},
+								"description": "Get all posts by specific user"
+							},
+							"response": []
+						},
+						{
+							"name": "Get Posts by Category",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": "Request content type"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{jwt_token}}",
+										"description": "JWT authentication"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/posts/category/550e8400-e29b-41d4-a716-446655440021?page=1&limit=10",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"posts",
+										"category",
+										"550e8400-e29b-41d4-a716-446655440021"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "limit",
+											"value": "10"
+										}
+									]
+								},
+								"description": "Get all posts in category"
+							},
+							"response": []
+						},
+						{
+							"name": "Verify Post Exists",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": "Request content type"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{jwt_token}}",
+										"description": "JWT authentication"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/posts/550e8400-e29b-41d4-a716-446655440100/verify",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"posts",
+										"550e8400-e29b-41d4-a716-446655440100",
+										"verify"
+									]
+								},
+								"description": "Check if post exists"
+							},
+							"response": []
+						},
+						{
+							"name": "Update Post",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": "Request content type"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{jwt_token}}",
+										"description": "JWT authentication"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"title\": \"Updated: Senior Full-Stack Developer\",\n  \"description\": \"Updated description\",\n  \"price\": 80000\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/posts/550e8400-e29b-41d4-a716-446655440100",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"posts",
+										"550e8400-e29b-41d4-a716-446655440100"
+									]
+								},
+								"description": "Update post details"
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Post",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": "Request content type"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{jwt_token}}",
+										"description": "JWT authentication"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/posts/550e8400-e29b-41d4-a716-446655440100",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"posts",
+										"550e8400-e29b-41d4-a716-446655440100"
+									]
+								},
+								"description": "Delete post permanently"
+							},
+							"response": []
+						},
+						{
+							"name": "Get Post Statistics",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": "Request content type"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{jwt_token}}",
+										"description": "JWT authentication"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/posts/stats",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"posts",
+										"stats"
+									]
+								},
+								"description": "Get post statistics"
+							},
+							"response": []
+						},
+						{
+							"name": "Get Post Reports",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": "Request content type"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{jwt_token}}",
+										"description": "JWT authentication"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/posts/reports?page=1&limit=10",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"posts",
+										"reports"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "limit",
+											"value": "10"
+										}
+									]
+								},
+								"description": "Get post reports"
+							},
+							"response": []
+						}
+					],
+					"description": "Manage posts with enhanced filtering"
+				},
+				{
+					"name": "🔍 Search",
+					"item": [
+						{
+							"name": "Global Search",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": "Request content type"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{jwt_token}}",
+										"description": "JWT authentication"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/search/global?q=developer&page=1&limit=20",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"search",
+										"global"
+									],
+									"query": [
+										{
+											"key": "q",
+											"value": "developer",
+											"description": "Search query (min 3 characters)"
+										},
+										{
+											"key": "type",
+											"value": "posts",
+											"description": "Filter by type: posts, products, jobs",
+											"disabled": true
+										},
+										{
+											"key": "page",
+											"value": "1",
+											"description": "Page number"
+										},
+										{
+											"key": "limit",
+											"value": "20",
+											"description": "Items per page"
+										}
+									]
+								},
+								"description": "🆕 Search across all content types (posts, products, jobs) with a single query"
+							},
+							"response": []
+						},
+						{
+							"name": "Advanced Search with Filters",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": "Request content type"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{jwt_token}}",
+										"description": "JWT authentication"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/search/advanced?q=laptop&sortBy=createdAt&sortOrder=DESC&page=1&limit=20",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"search",
+										"advanced"
+									],
+									"query": [
+										{
+											"key": "q",
+											"value": "laptop",
+											"description": "Search query (min 3 characters)"
+										},
+										{
+											"key": "categoryId",
+											"value": "550e8400-e29b-41d4-a716-446655440023",
+											"description": "Filter by category",
+											"disabled": true
+										},
+										{
+											"key": "regionId",
+											"value": "550e8400-e29b-41d4-a716-446655440001",
+											"description": "Filter by region",
+											"disabled": true
+										},
+										{
+											"key": "cityId",
+											"value": "550e8400-e29b-41d4-a716-446655440011",
+											"description": "Filter by city",
+											"disabled": true
+										},
+										{
+											"key": "priceMin",
+											"value": "10000",
+											"description": "Minimum price",
+											"disabled": true
+										},
+										{
+											"key": "priceMax",
+											"value": "50000",
+											"description": "Maximum price",
+											"disabled": true
+										},
+										{
+											"key": "sortBy",
+											"value": "createdAt",
+											"description": "Sort field"
+										},
+										{
+											"key": "sortOrder",
+											"value": "DESC",
+											"description": "Sort order"
+										},
+										{
+											"key": "page",
+											"value": "1",
+											"description": "Page number"
+										},
+										{
+											"key": "limit",
+											"value": "20",
+											"description": "Items per page"
+										}
+									]
+								},
+								"description": "🆕 Advanced search with category, location, and price filters"
+							},
+							"response": []
+						}
+					],
+					"description": "🆕 Global and advanced search functionality"
+				},
+				{
+					"name": "💼 Job Posts",
+					"item": [
+						{
+							"name": "Create Job Post",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": "Request content type"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{jwt_token}}",
+										"description": "JWT authentication"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"postId\": \"550e8400-e29b-41d4-a716-446655440100\",\n  \"salaryMin\": 45000,\n  \"salaryMax\": 85000,\n  \"employmentType\": \"full_time\",\n  \"experienceLevel\": \"mid\",\n  \"company\": \"TechCorp Ethiopia\",\n  \"skills\": [\n    \"JavaScript\",\n    \"Node.js\",\n    \"React\",\n    \"MongoDB\"\n  ],\n  \"yearOfExperience\": 3,\n  \"duration\": \"Permanent\",\n  \"remote\": true\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/job-posts",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"job-posts"
+									]
+								},
+								"description": "Create new job posting"
+							},
+							"response": []
+						},
+						{
+							"name": "Get All Job Posts",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": "Request content type"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{jwt_token}}",
+										"description": "JWT authentication"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/job-posts?page=1&limit=10",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"job-posts"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "limit",
+											"value": "10"
+										},
+										{
+											"key": "employmentType",
+											"value": "full_time",
+											"description": "full_time, part_time, contract, internship",
+											"disabled": true
+										},
+										{
+											"key": "experienceLevel",
+											"value": "mid",
+											"description": "junior, mid, senior, lead",
+											"disabled": true
+										},
+										{
+											"key": "remote",
+											"value": "true",
+											"description": "Remote jobs only",
+											"disabled": true
+										},
+										{
+											"key": "salaryMin",
+											"value": "30000",
+											"disabled": true
+										},
+										{
+											"key": "salaryMax",
+											"value": "100000",
+											"disabled": true
+										},
+										{
+											"key": "company",
+											"value": "Tech",
+											"description": "Search by company name",
+											"disabled": true
+										},
+										{
+											"key": "search",
+											"value": "developer",
+											"disabled": true
+										}
+									]
+								},
+								"description": "Get all job posts with filters"
+							},
+							"response": []
+						},
+						{
+							"name": "Get Job Post by ID",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": "Request content type"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{jwt_token}}",
+										"description": "JWT authentication"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/job-posts/550e8400-e29b-41d4-a716-446655440100",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"job-posts",
+										"550e8400-e29b-41d4-a716-446655440100"
+									]
+								},
+								"description": "Get job post details"
+							},
+							"response": []
+						},
+						{
+							"name": "Update Job Post",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": "Request content type"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{jwt_token}}",
+										"description": "JWT authentication"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"salaryMax\": 95000,\n  \"remote\": true\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/job-posts/550e8400-e29b-41d4-a716-446655440100",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"job-posts",
+										"550e8400-e29b-41d4-a716-446655440100"
+									]
+								},
+								"description": "Update job posting"
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Job Post",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": "Request content type"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{jwt_token}}",
+										"description": "JWT authentication"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/job-posts/550e8400-e29b-41d4-a716-446655440100",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"job-posts",
+										"550e8400-e29b-41d4-a716-446655440100"
+									]
+								},
+								"description": "Delete job posting"
+							},
+							"response": []
+						}
+					],
+					"description": "Manage job postings"
+				},
+				{
+					"name": "🛍️ Products",
+					"item": [
+						{
+							"name": "Create Product",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": "Request content type"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{jwt_token}}",
+										"description": "JWT authentication"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"postId\": \"550e8400-e29b-41d4-a716-446655440200\",\n  \"productCategory\": \"Electronics\",\n  \"condition\": \"new\",\n  \"stockQty\": 25,\n  \"sku\": \"LAPTOP-DELL-XPS15-2024\",\n  \"allowOffers\": true,\n  \"currency\": \"ETB\",\n  \"pictures\": [\n    \"/uploads/products/laptop-front.jpg\",\n    \"/uploads/products/laptop-side.jpg\"\n  ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/products",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"products"
+									]
+								},
+								"description": "Create new product listing"
+							},
+							"response": []
+						},
+						{
+							"name": "Get All Products - Enhanced Filters",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": "Request content type"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{jwt_token}}",
+										"description": "JWT authentication"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/products?page=1&limit=10",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"products"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "limit",
+											"value": "10"
+										},
+										{
+											"key": "condition",
+											"value": "new",
+											"description": "new, used, refurbished",
+											"disabled": true
+										},
+										{
+											"key": "productCategory",
+											"value": "Electronics",
+											"disabled": true
+										},
+										{
+											"key": "allowOffers",
+											"value": "true",
+											"disabled": true
+										},
+										{
+											"key": "currency",
+											"value": "ETB",
+											"disabled": true
+										},
+										{
+											"key": "stockQtyMin",
+											"value": "1",
+											"description": "In-stock items",
+											"disabled": true
+										},
+										{
+											"key": "stockQtyMax",
+											"value": "100",
+											"disabled": true
+										},
+										{
+											"key": "categoryId",
+											"value": "",
+											"disabled": true
+										},
+										{
+											"key": "regionId",
+											"value": "",
+											"disabled": true
+										},
+										{
+											"key": "cityId",
+											"value": "",
+											"disabled": true
+										},
+										{
+											"key": "priceMin",
+											"value": "1000",
+											"disabled": true
+										},
+										{
+											"key": "priceMax",
+											"value": "50000",
+											"disabled": true
+										},
+										{
+											"key": "search",
+											"value": "laptop",
+											"disabled": true
+										}
+									]
+								},
+								"description": "Get products with comprehensive filtering"
+							},
+							"response": []
+						},
+						{
+							"name": "Get Product by ID",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": "Request content type"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{jwt_token}}",
+										"description": "JWT authentication"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/products/550e8400-e29b-41d4-a716-446655440200",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"products",
+										"550e8400-e29b-41d4-a716-446655440200"
+									]
+								},
+								"description": "Get product details"
+							},
+							"response": []
+						},
+						{
+							"name": "Update Product",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": "Request content type"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{jwt_token}}",
+										"description": "JWT authentication"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"stockQty\": 20,\n  \"allowOffers\": false\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/products/550e8400-e29b-41d4-a716-446655440200",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"products",
+										"550e8400-e29b-41d4-a716-446655440200"
+									]
+								},
+								"description": "Update product"
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Product",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": "Request content type"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{jwt_token}}",
+										"description": "JWT authentication"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/products/550e8400-e29b-41d4-a716-446655440200",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"products",
+										"550e8400-e29b-41d4-a716-446655440200"
+									]
+								},
+								"description": "Delete product"
+							},
+							"response": []
+						}
+					],
+					"description": "Manage product listings"
+				},
+				{
+					"name": "🛒 Orders",
+					"item": [
+						{
+							"name": "Create Order",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": "Request content type"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{jwt_token}}",
+										"description": "JWT authentication"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"productId\": \"550e8400-e29b-41d4-a716-446655440200\",\n  \"sellerId\": \"550e8400-e29b-41d4-a716-446655440002\",\n  \"postId\": \"550e8400-e29b-41d4-a716-446655440200\",\n  \"quantity\": 2,\n  \"offerPrice\": 45000,\n  \"shippingAddress\": \"Bole, Addis Ababa\",\n  \"phone\": \"+251911234567\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/orders",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"orders"
+									]
+								},
+								"description": "Place new order"
+							},
+							"response": []
+						},
+						{
+							"name": "Get My Orders",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": "Request content type"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{jwt_token}}",
+										"description": "JWT authentication"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/orders/my-orders?page=1&limit=10",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"orders",
+										"my-orders"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "limit",
+											"value": "10"
+										},
+										{
+											"key": "status",
+											"value": "pending",
+											"description": "requested, accepted, paid, shipped, completed",
+											"disabled": true
+										}
+									]
+								},
+								"description": "Get my orders as buyer"
+							},
+							"response": []
+						},
+						{
+							"name": "Get My Sales",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": "Request content type"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{jwt_token}}",
+										"description": "JWT authentication"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/orders/seller-orders?page=1&limit=10",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"orders",
+										"seller-orders"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "limit",
+											"value": "10"
+										}
+									]
+								},
+								"description": "Get orders for my products"
+							},
+							"response": []
+						},
+						{
+							"name": "Get Order by ID",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": "Request content type"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{jwt_token}}",
+										"description": "JWT authentication"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/orders/550e8400-e29b-41d4-a716-446655440300",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"orders",
+										"550e8400-e29b-41d4-a716-446655440300"
+									]
+								},
+								"description": "Get order details"
+							},
+							"response": []
+						},
+						{
+							"name": "Update Order Status",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": "Request content type"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{jwt_token}}",
+										"description": "JWT authentication"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"status\": \"accepted\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/orders/550e8400-e29b-41d4-a716-446655440300/status",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"orders",
+										"550e8400-e29b-41d4-a716-446655440300",
+										"status"
+									]
+								},
+								"description": "Update order status"
+							},
+							"response": []
+						}
+					],
+					"description": "Manage product orders"
+				},
+				{
+					"name": "🏠 Rental Listings",
+					"item": [
+						{
+							"name": "Create Rental Listing",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": "Request content type"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{jwt_token}}",
+										"description": "JWT authentication"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"postId\": \"550e8400-e29b-41d4-a716-446655440300\",\n  \"propertyType\": \"apartment\",\n  \"bedrooms\": 3,\n  \"bathrooms\": 2,\n  \"squareMeters\": 120,\n  \"monthlyRent\": 15000,\n  \"deposit\": 30000,\n  \"furnished\": true,\n  \"utilities\": [\n    \"water\",\n    \"electricity\"\n  ],\n  \"amenities\": [\n    \"parking\",\n    \"elevator\",\n    \"security\"\n  ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/rental-listings",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"rental-listings"
+									]
+								},
+								"description": "Create rental property"
+							},
+							"response": []
+						},
+						{
+							"name": "Get All Rentals",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": "Request content type"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{jwt_token}}",
+										"description": "JWT authentication"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/rental-listings?page=1&limit=10",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"rental-listings"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "limit",
+											"value": "10"
+										},
+										{
+											"key": "propertyType",
+											"value": "apartment",
+											"disabled": true
+										},
+										{
+											"key": "bedrooms",
+											"value": "2",
+											"disabled": true
+										},
+										{
+											"key": "furnished",
+											"value": "true",
+											"disabled": true
+										},
+										{
+											"key": "minRent",
+											"value": "5000",
+											"disabled": true
+										},
+										{
+											"key": "maxRent",
+											"value": "20000",
+											"disabled": true
+										}
+									]
+								},
+								"description": "Get rental listings with filters"
+							},
+							"response": []
+						},
+						{
+							"name": "Get Rental by ID",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": "Request content type"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{jwt_token}}",
+										"description": "JWT authentication"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/rental-listings/550e8400-e29b-41d4-a716-446655440300",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"rental-listings",
+										"550e8400-e29b-41d4-a716-446655440300"
+									]
+								},
+								"description": "Get rental details"
+							},
+							"response": []
+						},
+						{
+							"name": "Update Rental",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": "Request content type"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{jwt_token}}",
+										"description": "JWT authentication"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"monthlyRent\": 16000\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/rental-listings/550e8400-e29b-41d4-a716-446655440300",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"rental-listings",
+										"550e8400-e29b-41d4-a716-446655440300"
+									]
+								},
+								"description": "Update rental listing"
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Rental",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": "Request content type"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{jwt_token}}",
+										"description": "JWT authentication"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/rental-listings/550e8400-e29b-41d4-a716-446655440300",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"rental-listings",
+										"550e8400-e29b-41d4-a716-446655440300"
+									]
+								},
+								"description": "Delete rental listing"
+							},
+							"response": []
+						}
+					],
+					"description": "Manage rental property listings"
+				},
+				{
+					"name": "🔧 Services",
+					"item": [
+						{
+							"name": "Create Service",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": "Request content type"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{jwt_token}}",
+										"description": "JWT authentication"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"postId\": \"550e8400-e29b-41d4-a716-446655440400\",\n  \"serviceType\": \"professional\",\n  \"hourlyRate\": 1500,\n  \"availability\": \"Mon-Fri, 9AM-6PM\",\n  \"experience\": \"8 years\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/services",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"services"
+									]
+								},
+								"description": "Create service offering"
+							},
+							"response": []
+						},
+						{
+							"name": "Get All Services",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": "Request content type"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{jwt_token}}",
+										"description": "JWT authentication"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/services?page=1&limit=10",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"services"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "limit",
+											"value": "10"
+										},
+										{
+											"key": "serviceType",
+											"value": "professional",
+											"disabled": true
+										},
+										{
+											"key": "minRate",
+											"value": "500",
+											"disabled": true
+										},
+										{
+											"key": "maxRate",
+											"value": "2000",
+											"disabled": true
+										}
+									]
+								},
+								"description": "Get services with filters"
+							},
+							"response": []
+						},
+						{
+							"name": "Get Service by ID",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": "Request content type"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{jwt_token}}",
+										"description": "JWT authentication"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/services/550e8400-e29b-41d4-a716-446655440400",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"services",
+										"550e8400-e29b-41d4-a716-446655440400"
+									]
+								},
+								"description": "Get service details"
+							},
+							"response": []
+						},
+						{
+							"name": "Update Service",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": "Request content type"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{jwt_token}}",
+										"description": "JWT authentication"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"hourlyRate\": 1800\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/services/550e8400-e29b-41d4-a716-446655440400",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"services",
+										"550e8400-e29b-41d4-a716-446655440400"
+									]
+								},
+								"description": "Update service"
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Service",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": "Request content type"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{jwt_token}}",
+										"description": "JWT authentication"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/services/550e8400-e29b-41d4-a716-446655440400",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"services",
+										"550e8400-e29b-41d4-a716-446655440400"
+									]
+								},
+								"description": "Delete service"
+							},
+							"response": []
+						}
+					],
+					"description": "Manage service offerings"
+				},
+				{
+					"name": "💑 Matchmaking Posts",
+					"item": [
+						{
+							"name": "Create Matchmaking Post",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": "Request content type"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{jwt_token}}",
+										"description": "JWT authentication"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"postId\": \"550e8400-e29b-41d4-a716-446655440500\",\n  \"visibility\": \"public\",\n  \"religion\": \"Christian\",\n  \"ethnicity\": \"Amhara\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/matchmaking-posts",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"matchmaking-posts"
+									]
+								},
+								"description": "Create matchmaking profile"
+							},
+							"response": []
+						},
+						{
+							"name": "Get All Matchmaking Posts",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": "Request content type"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{jwt_token}}",
+										"description": "JWT authentication"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/matchmaking-posts?page=1&limit=10",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"matchmaking-posts"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "limit",
+											"value": "10"
+										},
+										{
+											"key": "visibility",
+											"value": "public",
+											"disabled": true
+										},
+										{
+											"key": "religion",
+											"value": "Christian",
+											"disabled": true
+										}
+									]
+								},
+								"description": "Get matchmaking posts"
+							},
+							"response": []
+						},
+						{
+							"name": "Get Matchmaking Post by ID",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": "Request content type"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{jwt_token}}",
+										"description": "JWT authentication"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/matchmaking-posts/550e8400-e29b-41d4-a716-446655440500",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"matchmaking-posts",
+										"550e8400-e29b-41d4-a716-446655440500"
+									]
+								},
+								"description": "Get profile details"
+							},
+							"response": []
+						},
+						{
+							"name": "Update Matchmaking Post",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": "Request content type"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{jwt_token}}",
+										"description": "JWT authentication"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"visibility\": \"private\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/matchmaking-posts/550e8400-e29b-41d4-a716-446655440500",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"matchmaking-posts",
+										"550e8400-e29b-41d4-a716-446655440500"
+									]
+								},
+								"description": "Update profile"
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Matchmaking Post",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": "Request content type"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{jwt_token}}",
+										"description": "JWT authentication"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/matchmaking-posts/550e8400-e29b-41d4-a716-446655440500",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"matchmaking-posts",
+										"550e8400-e29b-41d4-a716-446655440500"
+									]
+								},
+								"description": "Delete profile"
+							},
+							"response": []
+						}
+					],
+					"description": "Manage matchmaking profiles"
+				},
+				{
+					"name": "📂 Categories",
+					"item": [
+						{
+							"name": "Get All Categories",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": "Request content type"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{jwt_token}}",
+										"description": "JWT authentication"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/categories",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"categories"
+									]
+								},
+								"description": "Get all categories"
+							},
+							"response": []
+						},
+						{
+							"name": "Get Category by ID",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": "Request content type"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{jwt_token}}",
+										"description": "JWT authentication"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/categories/550e8400-e29b-41d4-a716-446655440021",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"categories",
+										"550e8400-e29b-41d4-a716-446655440021"
+									]
+								},
+								"description": "Get category details"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "🌍 Regions",
+					"item": [
+						{
+							"name": "Get All Regions",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": "Request content type"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{jwt_token}}",
+										"description": "JWT authentication"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/regions",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"regions"
+									]
+								},
+								"description": "Get all regions"
+							},
+							"response": []
+						},
+						{
+							"name": "Get Region by ID",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": "Request content type"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{jwt_token}}",
+										"description": "JWT authentication"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/regions/550e8400-e29b-41d4-a716-446655440001",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"regions",
+										"550e8400-e29b-41d4-a716-446655440001"
+									]
+								},
+								"description": "Get region details"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "🏙️ Cities",
+					"item": [
+						{
+							"name": "Get All Cities",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": "Request content type"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{jwt_token}}",
+										"description": "JWT authentication"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/cities",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"cities"
+									]
+								},
+								"description": "Get all cities"
+							},
+							"response": []
+						},
+						{
+							"name": "Get Cities by Region",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": "Request content type"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{jwt_token}}",
+										"description": "JWT authentication"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/cities/region/550e8400-e29b-41d4-a716-446655440001",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"cities",
+										"region",
+										"550e8400-e29b-41d4-a716-446655440001"
+									]
+								},
+								"description": "Get cities in region"
+							},
+							"response": []
+						},
+						{
+							"name": "Get City by ID",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": "Request content type"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{jwt_token}}",
+										"description": "JWT authentication"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/cities/550e8400-e29b-41d4-a716-446655440011",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"cities",
+										"550e8400-e29b-41d4-a716-446655440011"
+									]
+								},
+								"description": "Get city details"
+							},
+							"response": []
+						}
+					]
+				}
+			],
+			"description": "Endpoints accessible to authenticated users"
+		},
+		{
+			"name": "👨‍💼 Admin Endpoints",
+			"item": [
+				{
+					"name": "📊 Analytics",
+					"item": [
+						{
+							"name": "Dashboard Statistics",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": "Request content type"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{admin_token}}",
+										"description": "JWT authentication"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/analytics/dashboard",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"analytics",
+										"dashboard"
+									],
+									"query": [
+										{
+											"key": "startDate",
+											"value": "2025-01-01",
+											"description": "Filter from date",
+											"disabled": true
+										},
+										{
+											"key": "endDate",
+											"value": "2025-12-31",
+											"description": "Filter to date",
+											"disabled": true
+										}
+									]
+								},
+								"description": "🆕 Get comprehensive dashboard statistics including totals, posts by category/region, revenue, and growth trends"
+							},
+							"response": []
+						},
+						{
+							"name": "User Engagement Analytics",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": "Request content type"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{admin_token}}",
+										"description": "JWT authentication"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/analytics/engagement",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"analytics",
+										"engagement"
+									]
+								},
+								"description": "🆕 Get user engagement metrics including most active users and activity by hour"
+							},
+							"response": []
+						},
+						{
+							"name": "Sales Analytics",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": "Request content type"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{admin_token}}",
+										"description": "JWT authentication"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/analytics/sales",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"analytics",
+										"sales"
+									],
+									"query": [
+										{
+											"key": "startDate",
+											"value": "2025-01-01",
+											"description": "Filter from date",
+											"disabled": true
+										},
+										{
+											"key": "endDate",
+											"value": "2025-12-31",
+											"description": "Filter to date",
+											"disabled": true
+										}
+									]
+								},
+								"description": "🆕 Get sales analytics including sales by status and top selling products"
+							},
+							"response": []
+						}
+					],
+					"description": "🆕 Business intelligence and analytics endpoints"
+				},
+				{
+					"name": "📝 Posts Management",
+					"item": [
+						{
+							"name": "Get All Posts (Admin)",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": "Request content type"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{admin_token}}",
+										"description": "JWT authentication"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/posts?page=1&limit=10",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"posts"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "limit",
+											"value": "10"
+										}
+									]
+								},
+								"description": "Get all posts with admin access"
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Any Post",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": "Request content type"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{admin_token}}",
+										"description": "JWT authentication"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/posts/550e8400-e29b-41d4-a716-446655440100",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"posts",
+										"550e8400-e29b-41d4-a716-446655440100"
+									]
+								},
+								"description": "Delete any post (admin)"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "🛒 Orders Management",
+					"item": [
+						{
+							"name": "Get All Orders (Admin)",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": "Request content type"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{admin_token}}",
+										"description": "JWT authentication"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/orders?page=1&limit=10",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"orders"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "limit",
+											"value": "10"
+										},
+										{
+											"key": "status",
+											"value": "pending",
+											"disabled": true
+										},
+										{
+											"key": "buyerId",
+											"value": "",
+											"disabled": true
+										},
+										{
+											"key": "sellerId",
+											"value": "",
+											"disabled": true
+										}
+									]
+								},
+								"description": "Get all orders in system"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "📂 Categories Management",
+					"item": [
+						{
+							"name": "Create Category",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": "Request content type"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{admin_token}}",
+										"description": "JWT authentication"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"categoryName\": \"Technology\",\n  \"description\": \"Technology and IT related posts\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/categories",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"categories"
+									]
+								},
+								"description": "Create new category"
+							},
+							"response": []
+						},
+						{
+							"name": "Update Category",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": "Request content type"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{admin_token}}",
+										"description": "JWT authentication"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"categoryName\": \"Updated Category\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/categories/550e8400-e29b-41d4-a716-446655440021",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"categories",
+										"550e8400-e29b-41d4-a716-446655440021"
+									]
+								},
+								"description": "Update category"
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Category",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": "Request content type"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{admin_token}}",
+										"description": "JWT authentication"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/categories/550e8400-e29b-41d4-a716-446655440021",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"categories",
+										"550e8400-e29b-41d4-a716-446655440021"
+									]
+								},
+								"description": "Delete category"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "🌍 Regions Management",
+					"item": [
+						{
+							"name": "Create Region",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": "Request content type"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{admin_token}}",
+										"description": "JWT authentication"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"Addis Ababa\",\n  \"code\": \"AA\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/regions",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"regions"
+									]
+								},
+								"description": "Create new region"
+							},
+							"response": []
+						},
+						{
+							"name": "Update Region",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": "Request content type"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{admin_token}}",
+										"description": "JWT authentication"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"Updated Region\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/regions/550e8400-e29b-41d4-a716-446655440001",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"regions",
+										"550e8400-e29b-41d4-a716-446655440001"
+									]
+								},
+								"description": "Update region"
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Region",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": "Request content type"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{admin_token}}",
+										"description": "JWT authentication"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/regions/550e8400-e29b-41d4-a716-446655440001",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"regions",
+										"550e8400-e29b-41d4-a716-446655440001"
+									]
+								},
+								"description": "Delete region"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "🏙️ Cities Management",
+					"item": [
+						{
+							"name": "Create City",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": "Request content type"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{admin_token}}",
+										"description": "JWT authentication"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"Bole\",\n  \"regionId\": \"550e8400-e29b-41d4-a716-446655440001\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/cities",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"cities"
+									]
+								},
+								"description": "Create new city"
+							},
+							"response": []
+						},
+						{
+							"name": "Update City",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": "Request content type"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{admin_token}}",
+										"description": "JWT authentication"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"Updated City\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/cities/550e8400-e29b-41d4-a716-446655440011",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"cities",
+										"550e8400-e29b-41d4-a716-446655440011"
+									]
+								},
+								"description": "Update city"
+							},
+							"response": []
+						},
+						{
+							"name": "Delete City",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": "Request content type"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{admin_token}}",
+										"description": "JWT authentication"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/cities/550e8400-e29b-41d4-a716-446655440011",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"cities",
+										"550e8400-e29b-41d4-a716-446655440011"
+									]
+								},
+								"description": "Delete city"
+							},
+							"response": []
+						}
+					]
+				}
+			],
+			"description": "Admin-only endpoints for analytics and management"
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:3000",
+			"type": "string",
+			"description": "Base URL for the API"
+		},
+		{
+			"key": "jwt_token",
+			"value": "",
+			"type": "string",
+			"description": "JWT authentication token from Auth Service"
+		},
+		{
+			"key": "admin_token",
+			"value": "",
+			"type": "string",
+			"description": "Admin JWT token for analytics endpoints"
+		}
+	]
+}

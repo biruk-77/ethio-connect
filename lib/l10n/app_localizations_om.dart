@@ -1,5 +1,10 @@
+// ignore: unused_import
+import 'package:intl/intl.dart' as intl;
 import 'app_localizations.dart';
 
+// ignore_for_file: type=lint
+
+/// The translations for Oromo (`om`).
 class AppLocalizationsOm extends AppLocalizations {
   AppLocalizationsOm([String locale = 'om']) : super(locale);
 
@@ -7,7 +12,7 @@ class AppLocalizationsOm extends AppLocalizations {
   String get appName => 'EthioConnect';
 
   @override
-  String get welcome => 'Baga nagaan dhufte';
+  String get welcome => 'Baga nagaan dhuftan';
 
   @override
   String get login => 'Seeni';
@@ -16,52 +21,52 @@ class AppLocalizationsOm extends AppLocalizations {
   String get logout => 'Ba\'i';
 
   @override
-  String get email => 'Imeelii';
+  String get email => 'Email';
 
   @override
-  String get password => 'Jecha icciitii';
+  String get password => 'Jecha Icciitii';
 
   @override
-  String get confirmPassword => 'Jecha icciitii mirkaneessi';
+  String get confirmPassword => 'Jecha Icciitii Mirkaneessi';
 
   @override
-  String get forgotPassword => 'Jecha icciitii irraanfatte?';
+  String get forgotPassword => 'Jecha Icciitii Dagatteettaa?';
 
   @override
   String get register => 'Galmaa\'i';
 
   @override
-  String get cancel => 'Dhiisi';
+  String get cancel => 'Haqii';
 
   @override
   String get save => 'Olkaa\'i';
 
   @override
-  String get delete => 'Haqi';
+  String get delete => 'Haqii';
 
   @override
-  String get edit => 'Gulaalchi';
+  String get edit => 'Gulaalii';
 
   @override
-  String get loading => 'Fe\'aa jira...';
+  String get loading => 'Fe\'amaa jira...';
 
   @override
-  String get error => 'Dogoggora';
+  String get error => 'Dogongora';
 
   @override
-  String get success => 'Milkaa\'e';
+  String get success => 'Milkaa\'ina';
 
   @override
-  String get retry => 'Irra deebi\'i yaali';
+  String get retry => 'Irra deebi\'ii yaali';
 
   @override
-  String get loginTitle => 'Baga nagaan deebifte';
+  String get loginTitle => 'Baga Deebitan';
 
   @override
   String get loginSubtitle => 'Akkaawuntii keessanitti seenaa';
 
   @override
-  String get emailHint => 'Imeelii keessan galchaa';
+  String get emailHint => 'Email keessan galchaa';
 
   @override
   String get passwordHint => 'Jecha icciitii keessan galchaa';
@@ -70,13 +75,13 @@ class AppLocalizationsOm extends AppLocalizations {
   String get loginButton => 'Seeni';
 
   @override
-  String get dontHaveAccount => 'Akkaawuntii hin qabdanii?';
+  String get dontHaveAccount => 'Akkaawuntii hin qabduu?';
 
   @override
-  String get signUp => 'Galmaa\'aa';
+  String get signUp => 'Galmaa\'i';
 
   @override
-  String get orContinueWith => 'Ykn itti fufi';
+  String get orContinueWith => 'Yookaan itti fufi';
 
   @override
   String get googleLogin => 'Google waliin itti fufi';
@@ -85,19 +90,20 @@ class AppLocalizationsOm extends AppLocalizations {
   String get facebookLogin => 'Facebook waliin itti fufi';
 
   @override
-  String get emailRequired => 'Imeeliin barbaachisaa dha';
+  String get emailRequired => 'Email barbaachisaa dha';
 
   @override
-  String get emailInvalid => 'Maaloo imeelii sirrii ta\'e galchaa';
+  String get emailInvalid => 'Email sirrii ta\'e galchaa';
 
   @override
-  String get passwordRequired => 'Jechni icciitii barbaachisaa dha';
+  String get passwordRequired => 'Jecha icciitii barbaachisaa dha';
 
   @override
-  String get passwordTooShort => 'Jechni icciitii yoo xiqqaate arfii 6 ta\'uu qaba';
+  String get passwordTooShort =>
+      'Jecha icciitiin yoo xiqqaate qubee 6 qabaachuu qaba';
 
   @override
-  String get passwordsDoNotMatch => 'Jechoonni icciitii wal hin simatan';
+  String get passwordsDoNotMatch => 'Jecha icciitiin wal hin simne';
 
   @override
   String get settings => 'Qindaa\'ina';
@@ -106,16 +112,16 @@ class AppLocalizationsOm extends AppLocalizations {
   String get language => 'Afaan';
 
   @override
-  String get theme => 'Bifa';
+  String get theme => 'Dhangala\'aa';
 
   @override
-  String get darkMode => 'Bifa dukkana';
+  String get darkMode => 'Haalata Dukkanaa';
 
   @override
-  String get lightMode => 'Bifa ifa';
+  String get lightMode => 'Haalata Ifa';
 
   @override
-  String get systemMode => 'Bifa sirna';
+  String get systemMode => 'Haalata Sirnaaa';
 
   @override
   String get english => 'English';

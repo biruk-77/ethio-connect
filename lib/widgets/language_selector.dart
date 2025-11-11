@@ -27,16 +27,18 @@ class LanguageSelector extends StatelessWidget {
           ),
           const SizedBox(height: 8),
         ],
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 12),
-          decoration: BoxDecoration(
-            border: Border.all(
-              color: Theme.of(context).colorScheme.outline.withOpacity(0.3),
+        Material(
+          color: Colors.transparent,
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12),
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: Theme.of(context).colorScheme.outline.withOpacity(0.3),
+              ),
+              borderRadius: BorderRadius.circular(12),
             ),
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: DropdownButtonHideUnderline(
-            child: DropdownButton<Locale?>(
+            child: DropdownButtonHideUnderline(
+              child: DropdownButton<Locale?>(
               value: localeProvider.locale,
               isExpanded: true,
               icon: const Icon(Icons.keyboard_arrow_down),
@@ -111,6 +113,7 @@ class LanguageSelector extends StatelessWidget {
               ],
             ),
           ),
+        ),
         ),
       ],
     );

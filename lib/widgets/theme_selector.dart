@@ -94,19 +94,42 @@ class ThemeToggleButton extends StatelessWidget {
     final theme = Theme.of(context);
     final isDark = themeProvider.themeMode == ThemeMode.dark;
     
-    return IconButton(
-      icon: AnimatedSwitcher(
-        duration: const Duration(milliseconds: 300),
-        child: Icon(
-          isDark ? Icons.light_mode : Icons.dark_mode,
-          key: ValueKey(isDark),
-          color: theme.colorScheme.onBackground,
-        ),
-      ),
+    return OutlinedButton(
       onPressed: () {
         themeProvider.toggleTheme(!isDark);
       },
-      tooltip: isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode',
+      style: OutlinedButton.styleFrom(
+        backgroundColor: Colors.white.withOpacity(0.5),
+        side: const BorderSide(color: Color(0xFFE0E0E0)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
+        padding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 8,
+        ),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          AnimatedSwitcher(
+            duration: const Duration(milliseconds: 300),
+            child: Icon(
+              isDark ? Icons.light_mode : Icons.dark_mode,
+              key: ValueKey(isDark),
+              color: const Color(0xFF4E5F6C),
+              size: 20,
+            ),
+          ),
+          const SizedBox(width: 8),
+          Text(
+            isDark ? 'Light' : 'Dark',
+            style: const TextStyle(
+              color: Color(0xFF4E5F6C),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

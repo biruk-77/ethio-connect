@@ -1,5 +1,10 @@
+// ignore: unused_import
+import 'package:intl/intl.dart' as intl;
 import 'app_localizations.dart';
 
+// ignore_for_file: type=lint
+
+/// The translations for Somali (`so`).
 class AppLocalizationsSo extends AppLocalizations {
   AppLocalizationsSo([String locale = 'so']) : super(locale);
 
@@ -16,19 +21,19 @@ class AppLocalizationsSo extends AppLocalizations {
   String get logout => 'Ka bax';
 
   @override
-  String get email => 'Iimayl';
+  String get email => 'Email';
 
   @override
-  String get password => 'Erayga sirta';
+  String get password => 'Erayga Sirta ah';
 
   @override
-  String get confirmPassword => 'Xaqiiji erayga sirta';
+  String get confirmPassword => 'Xaqiiji Erayga Sirta ah';
 
   @override
-  String get forgotPassword => 'Erayga sirta ma ilowday?';
+  String get forgotPassword => 'Ma ilowday erayga sirta ah?';
 
   @override
-  String get register => 'Diiwaangeli';
+  String get register => 'Isdiiwaangeli';
 
   @override
   String get cancel => 'Jooji';
@@ -37,34 +42,34 @@ class AppLocalizationsSo extends AppLocalizations {
   String get save => 'Kaydi';
 
   @override
-  String get delete => 'Tirtir';
+  String get delete => 'Tir';
 
   @override
   String get edit => 'Wax ka beddel';
 
   @override
-  String get loading => 'Waa la rarayo...';
+  String get loading => 'Waa la soo rarayo...';
 
   @override
-  String get error => 'Qalad';
+  String get error => 'Khalad';
 
   @override
   String get success => 'Guul';
 
   @override
-  String get retry => 'Dib u isku day';
+  String get retry => 'Mar labaad isku day';
 
   @override
-  String get loginTitle => 'Ku soo dhawoow dib';
+  String get loginTitle => 'Soo dhawoow dib';
 
   @override
-  String get loginSubtitle => 'Akoonkaaga u gal';
+  String get loginSubtitle => 'Akoonkaaga gal';
 
   @override
-  String get emailHint => 'Gali iimaylkaaga';
+  String get emailHint => 'Geli emailkaaga';
 
   @override
-  String get passwordHint => 'Gali erayga sirta';
+  String get passwordHint => 'Geli erayga sirta ah';
 
   @override
   String get loginButton => 'Gal';
@@ -73,7 +78,7 @@ class AppLocalizationsSo extends AppLocalizations {
   String get dontHaveAccount => 'Akoon ma lihid?';
 
   @override
-  String get signUp => 'Diiwaangeli';
+  String get signUp => 'Isdiiwaangeli';
 
   @override
   String get orContinueWith => 'Ama ku sii wad';
@@ -85,37 +90,38 @@ class AppLocalizationsSo extends AppLocalizations {
   String get facebookLogin => 'Ku sii wad Facebook';
 
   @override
-  String get emailRequired => 'Iimayl ayaa loo baahan yahay';
+  String get emailRequired => 'Email ayaa loo baahan yahay';
 
   @override
-  String get emailInvalid => 'Fadlan gali iimayl sax ah';
+  String get emailInvalid => 'Fadlan geli email sax ah';
 
   @override
-  String get passwordRequired => 'Erayga sirta ayaa loo baahan yahay';
+  String get passwordRequired => 'Erayga sirta ah ayaa loo baahan yahay';
 
   @override
-  String get passwordTooShort => 'Erayga sirta waa inuu noqdaa ugu yaraan 6 xaraf';
+  String get passwordTooShort =>
+      'Erayga sirta ah waa inuu ka kooban yahay ugu yaraan 6 xaraf';
 
   @override
-  String get passwordsDoNotMatch => 'Erayada sirta ma isku mid aha';
+  String get passwordsDoNotMatch => 'Erayada sirta ahi isma le\'eka yihiin';
 
   @override
   String get settings => 'Dejinta';
 
   @override
-  String get language => 'Luqadda';
+  String get language => 'Luuqad';
 
   @override
-  String get theme => 'Muuqaalka';
+  String get theme => 'Qaab';
 
   @override
-  String get darkMode => 'Muuqaal mugdi ah';
+  String get darkMode => 'Qaabka Madow';
 
   @override
-  String get lightMode => 'Muuqaal iftiimin ah';
+  String get lightMode => 'Qaabka Ifka ah';
 
   @override
-  String get systemMode => 'Muuqaalka nidaamka';
+  String get systemMode => 'Qaabka Nidaamka';
 
   @override
   String get english => 'English';
