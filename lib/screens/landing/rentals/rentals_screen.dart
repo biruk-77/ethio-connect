@@ -33,8 +33,8 @@ class _RentalsScreenState extends State<RentalsScreen> {
     if (_isAuthenticated) {
       final roles = await _authService.getMyRoles();
       _hasLandlordRole = roles.any((role) => 
-        (role.role?.name?.toLowerCase() ?? '') == 'landlord' || 
-        (role.role?.name?.toLowerCase() ?? '') == 'business'
+        (role.role?.name.toLowerCase() ?? '') == 'landlord' || 
+        (role.role?.name.toLowerCase() ?? '') == 'business'
       );
       if (mounted) setState(() {});
     }

@@ -191,7 +191,7 @@ class _CategoryDetailsPanelState extends State<CategoryDetailsPanel>
         // Stats bar
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-          color: theme.colorScheme.surfaceVariant.withOpacity(0.5),
+          color: theme.colorScheme.surfaceContainerHighest.withOpacity(0.5),
           child: Row(
             children: [
               Icon(

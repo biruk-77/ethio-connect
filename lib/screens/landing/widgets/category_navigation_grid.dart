@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../../../theme/app_colors.dart';
 import '../../../models/post_model.dart';
 import '../jobs/jobs_screen.dart';
 import '../products/products_screen.dart';

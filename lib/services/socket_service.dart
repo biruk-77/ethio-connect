@@ -408,6 +408,73 @@ class SocketService {
     });
   }
 
+  // ==================== ENHANCED ROOM METHODS (Abel's Spec) ====================
+
+  /// Join post room for real-time post updates
+  void joinPostRoom(String postId) {
+    AppLogger.info('🏠 Joining post room: $postId');
+    emit('join:post', {'postId': postId});
+  }
+
+  /// Leave post room
+  void leavePostRoom(String postId) {
+    AppLogger.info('🏠 Leaving post room: $postId');
+    emit('leave:post', {'postId': postId});
+  }
+
+  /// Join user room for direct messages
+  void joinUserRoom(String userId) {
+    AppLogger.info('👤 Joining user room: $userId');
+    emit('join:user', {'userId': userId});
+  }
+
+  /// Leave user room
+  void leaveUserRoom(String userId) {
+    AppLogger.info('👤 Leaving user room: $userId');
+    emit('leave:user', {'userId': userId});
+  }
+
+  /// Join conversation room
+  void joinConversationRoom(String conversationId) {
+    AppLogger.info('💬 Joining conversation room: $conversationId');
+    emit('join:conversation', {'conversationId': conversationId});
+  }
+
+  /// Leave conversation room
+  void leaveConversationRoom(String conversationId) {
+    AppLogger.info('💬 Leaving conversation room: $conversationId');
+    emit('leave:conversation', {'conversationId': conversationId});
+  }
+
+  /// Join multiple rooms at once
+  void joinRooms(List<Map<String, String>> rooms) {
+    for (var room in rooms) {
+      final type = room['type'];
+      final id = room['id'];
+      if (type != null && id != null) {
+        switch (type) {
+          case 'post':
+            joinPostRoom(id);
+            break;
+          case 'user':
+            joinUserRoom(id);
+            break;
+          case 'conversation':
+            joinConversationRoom(id);
+            break;
+          default:
+            joinRoom(type, id);
+        }
+      }
+    }
+  }
+
+  /// Leave all rooms (cleanup)
+  void leaveAllRooms() {
+    AppLogger.info('🏠 Leaving all rooms');
+    emit('leave:all', {});
+  }
+
   // ==================== USER STATUS METHODS ====================
 
   /// Update user status

@@ -318,10 +318,18 @@ class AuthService {
     }
   }
 
-  Future<void> logout() async {
-    AppLogger.info('👋 Logging out');
-    await clearAuth();
+  Future<bool> logout() async {
+    try {
+      AppLogger.info('👋 Logging out user');
+      await clearAuth();
+      AppLogger.success('✅ Logout successful');
+      return true;
+    } catch (e) {
+      AppLogger.error('Logout failed: $e');
+      return false;
+    }
   }
+
 
   // ==================== OTP Authentication ====================
 

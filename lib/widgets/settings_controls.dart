@@ -19,7 +19,7 @@ class SettingsControls extends StatelessWidget {
         IconButton(
           icon: Icon(
             Icons.language,
-            color: theme.colorScheme.onBackground,
+            color: theme.colorScheme.onSurface,
           ),
           onPressed: () => _showLanguageBottomSheet(context),
           tooltip: l10n.language,

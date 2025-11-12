@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import '../../services/auth/auth_service.dart';
 import '../../models/auth/verification_model.dart';
 import '../../models/auth/role_model.dart';
-import '../../utils/app_logger.dart';
 import '../../config/auth_api_config.dart';
 
 class VerificationCenterScreen extends StatefulWidget {

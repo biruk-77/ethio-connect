@@ -7,7 +7,7 @@ import '../categories/post_details_sheet.dart';
 
 class ProductsScreen extends StatefulWidget {
   final List<Product> products;
-  
+
   const ProductsScreen({
     super.key,
     required this.products,
@@ -30,13 +30,12 @@ class _ProductsScreenState extends State<ProductsScreen> {
 
   Future<void> _checkAuth() async {
     _isAuthenticated = await _authService.isAuthenticated();
-    
+
     if (_isAuthenticated) {
       final roles = await _authService.getMyRoles();
-      _hasBusinessRole = roles.any((role) => 
-        (role.role?.name?.toLowerCase() ?? '') == 'business' || 
-        (role.role?.name?.toLowerCase() ?? '') == 'seller'
-      );
+      _hasBusinessRole = roles.any((role) =>
+          (role.role?.name.toLowerCase() ?? '') == 'business' ||
+          (role.role?.name.toLowerCase() ?? '') == 'seller');
       if (mounted) setState(() {});
     }
   }
@@ -46,7 +45,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
       _showLoginPrompt();
       return;
     }
-    
+
     if (!_hasBusinessRole) {
       _showApplyForRoleDialog();
     }
@@ -155,75 +154,76 @@ class _ProductsScreenState extends State<ProductsScreen> {
         ],
       ),
       body: widget.products.isEmpty
-              ? _buildEmptyState()
-              : GridView.builder(
-                    padding: const EdgeInsets.all(16),
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      childAspectRatio: 0.75,
-                      crossAxisSpacing: 12,
-                      mainAxisSpacing: 12,
-                    ),
-                    itemCount: widget.products.length,
-                    itemBuilder: (context, index) {
-                      final product = widget.products[index];
-                      return Card(
-                        clipBehavior: Clip.antiAlias,
-                        child: InkWell(
-                          onTap: () => _showPostDetails(product),
+          ? _buildEmptyState()
+          : GridView.builder(
+              padding: const EdgeInsets.all(16),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                childAspectRatio: 0.75,
+                crossAxisSpacing: 12,
+                mainAxisSpacing: 12,
+              ),
+              itemCount: widget.products.length,
+              itemBuilder: (context, index) {
+                final product = widget.products[index];
+                return Card(
+                  clipBehavior: Clip.antiAlias,
+                  child: InkWell(
+                    onTap: () => _showPostDetails(product),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: product.firstImageUrl != null
+                              ? Image.network(
+                                  product.firstImageUrl!,
+                                  fit: BoxFit.cover,
+                                  width: double.infinity,
+                                )
+                              : Container(
+                                  color: Colors.grey[300],
+                                  child: const Center(
+                                    child: Icon(Icons.shopping_bag, size: 60),
+                                  ),
+                                ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Expanded(
-                                child: product.firstImageUrl != null
-                                    ? Image.network(
-                                        product.firstImageUrl!,
-                                        fit: BoxFit.cover,
-                                        width: double.infinity,
-                                      )
-                                    : Container(
-                                        color: Colors.grey[300],
-                                        child: const Center(
-                                          child: Icon(Icons.shopping_bag, size: 60),
-                                        ),
-                                      ),
+                              Text(
+                                product.post?.title ?? 'Product',
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
                               ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      product.post?.title ?? 'Product',
-                                      style: const TextStyle(fontWeight: FontWeight.bold),
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                    if (product.post?.price != null)
-                                      Text(
-                                        '${product.post!.price} ETB',
-                                        style: TextStyle(
-                                          color: AppColors.primary,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    const SizedBox(height: 4),
-                                    PostLikeButton(
-                                      postId: product.post?.id ?? '',
-                                      postOwnerId: product.post?.userId ?? '',
-                                      postTitle: product.post?.title ?? 'Product',
-                                      initiallyLiked: false,
-                                      initialLikeCount: 0,
-                                    ),
-                                  ],
+                              if (product.post?.price != null)
+                                Text(
+                                  '${product.post!.price} ETB',
+                                  style: TextStyle(
+                                    color: AppColors.primary,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
+                              const SizedBox(height: 4),
+                              PostLikeButton(
+                                postId: product.post?.id ?? '',
+                                postOwnerId: product.post?.userId ?? '',
+                                postTitle: product.post?.title ?? 'Product',
+                                initiallyLiked: false,
+                                initialLikeCount: 0,
                               ),
                             ],
                           ),
                         ),
-                      );
-                    },
+                      ],
+                    ),
                   ),
+                );
+              },
+            ),
       floatingActionButton: _isAuthenticated
           ? FloatingActionButton.extended(
               onPressed: _hasBusinessRole
@@ -239,7 +239,8 @@ class _ProductsScreenState extends State<ProductsScreen> {
                   : _showApplyDialog,
               backgroundColor: AppColors.primary,
               icon: Icon(_hasBusinessRole ? Icons.add : Icons.store),
-              label: Text(_hasBusinessRole ? 'List a Product' : 'Become a Seller'),
+              label:
+                  Text(_hasBusinessRole ? 'List a Product' : 'Become a Seller'),
             )
           : null,
     );

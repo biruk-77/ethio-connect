@@ -24,8 +24,9 @@ class RentalsCarousel extends StatelessWidget {
     if (rentals.isEmpty) {
       return const SizedBox.shrink();
     }
-    
-    final countText = rentals.length == 1 ? '1 rental found' : '${rentals.length} rentals';
+
+    final countText =
+        rentals.length == 1 ? '1 rental found' : '${rentals.length} rentals';
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -63,7 +64,8 @@ class RentalsCarousel extends StatelessWidget {
                     margin: const EdgeInsets.symmetric(horizontal: 16.0),
                     padding: const EdgeInsets.all(24.0),
                     decoration: BoxDecoration(
-                      color: theme.colorScheme.surfaceVariant.withOpacity(0.3),
+                      color: theme.colorScheme.surfaceContainerHighest
+                          .withOpacity(0.3),
                       borderRadius: BorderRadius.circular(12),
                       border: Border.all(
                         color: theme.colorScheme.outline.withOpacity(0.2),
@@ -75,7 +77,8 @@ class RentalsCarousel extends StatelessWidget {
                         Icon(
                           Icons.home_outlined,
                           size: 48,
-                          color: theme.colorScheme.onSurfaceVariant.withOpacity(0.5),
+                          color: theme.colorScheme.onSurfaceVariant
+                              .withOpacity(0.5),
                         ),
                         const SizedBox(height: 12),
                         Text(
@@ -91,7 +94,8 @@ class RentalsCarousel extends StatelessWidget {
                           'Check back later for new listings',
                           style: TextStyle(
                             fontSize: 12,
-                            color: theme.colorScheme.onSurfaceVariant.withOpacity(0.7),
+                            color: theme.colorScheme.onSurfaceVariant
+                                .withOpacity(0.7),
                           ),
                         ),
                       ],
@@ -112,7 +116,8 @@ class RentalsCarousel extends StatelessWidget {
     );
   }
 
-  Widget _buildRentalCard(BuildContext context, dynamic rental, ThemeData theme) {
+  Widget _buildRentalCard(
+      BuildContext context, dynamic rental, ThemeData theme) {
     return Container(
       width: 280,
       margin: const EdgeInsets.symmetric(horizontal: 4.0),
@@ -136,7 +141,8 @@ class RentalsCarousel extends StatelessWidget {
                       theme.colorScheme.secondaryContainer,
                     ],
                   ),
-                  borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
+                  borderRadius:
+                      const BorderRadius.vertical(top: Radius.circular(12)),
                 ),
                 child: Center(
                   child: Icon(
@@ -164,13 +170,16 @@ class RentalsCarousel extends StatelessWidget {
                                     fit: BoxFit.scaleDown,
                                     alignment: Alignment.centerLeft,
                                     child: Container(
-                                      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 3),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 6, vertical: 3),
                                       decoration: BoxDecoration(
                                         color: Colors.blue.shade100,
                                         borderRadius: BorderRadius.circular(6),
                                       ),
                                       child: Text(
-                                        rental['propertyType'].toString().toUpperCase(),
+                                        rental['propertyType']
+                                            .toString()
+                                            .toUpperCase(),
                                         style: TextStyle(
                                           fontSize: 9,
                                           fontWeight: FontWeight.bold,
@@ -182,11 +191,12 @@ class RentalsCarousel extends StatelessWidget {
                                 ),
                               const Spacer(),
                               if (rental['furnished'] == true)
-                                Icon(Icons.chair, size: 14, color: theme.colorScheme.primary),
+                                Icon(Icons.chair,
+                                    size: 14, color: theme.colorScheme.primary),
                             ],
                           ),
                           const SizedBox(height: 3),
-                          
+
                           // Title with responsive sizing
                           LayoutBuilder(
                             builder: (context, titleConstraints) {
@@ -198,7 +208,9 @@ class RentalsCarousel extends StatelessWidget {
                                     maxWidth: titleConstraints.maxWidth,
                                   ),
                                   child: Text(
-                                    rental['title'] ?? rental['propertyName'] ?? 'Property',
+                                    rental['title'] ??
+                                        rental['propertyName'] ??
+                                        'Property',
                                     style: const TextStyle(
                                       fontSize: 13,
                                       fontWeight: FontWeight.bold,
@@ -210,12 +222,14 @@ class RentalsCarousel extends StatelessWidget {
                             },
                           ),
                           const SizedBox(height: 2),
-                          
+
                           // Bedrooms and location
                           Row(
                             children: [
                               if (rental['bedrooms'] != null) ...[
-                                Icon(Icons.bed, size: 12, color: theme.colorScheme.onSurfaceVariant),
+                                Icon(Icons.bed,
+                                    size: 12,
+                                    color: theme.colorScheme.onSurfaceVariant),
                                 const SizedBox(width: 2),
                                 FittedBox(
                                   fit: BoxFit.scaleDown,
@@ -229,7 +243,9 @@ class RentalsCarousel extends StatelessWidget {
                                 ),
                                 const SizedBox(width: 4),
                               ],
-                              Icon(Icons.location_on, size: 12, color: theme.colorScheme.onSurfaceVariant),
+                              Icon(Icons.location_on,
+                                  size: 12,
+                                  color: theme.colorScheme.onSurfaceVariant),
                               const SizedBox(width: 2),
                               Expanded(
                                 child: FittedBox(
@@ -247,7 +263,7 @@ class RentalsCarousel extends StatelessWidget {
                             ],
                           ),
                           const SizedBox(height: 3),
-                          
+
                           // Price and Action buttons row
                           Row(
                             children: [
@@ -277,11 +293,24 @@ class RentalsCarousel extends StatelessWidget {
                               Transform.scale(
                                 scale: 0.8,
                                 child: PostLikeButton(
-                                  postId: rental['post']?['_id'] ?? rental['post']?['id'] ?? rental['id'] ?? '',
-                                  postOwnerId: rental['post']?['userId'] ?? rental['userId'] ?? '',
-                                  postTitle: rental['title'] ?? rental['propertyName'] ?? 'Property',
-                                  initiallyLiked: rental['post']?['isFavorited'] ?? rental['isFavorited'] ?? false,
-                                  initialLikeCount: rental['post']?['favoriteCount'] ?? rental['favoriteCount'] ?? 0,
+                                  postId: rental['post']?['_id'] ??
+                                      rental['post']?['id'] ??
+                                      rental['id'] ??
+                                      '',
+                                  postOwnerId: rental['post']?['userId'] ??
+                                      rental['userId'] ??
+                                      '',
+                                  postTitle: rental['title'] ??
+                                      rental['propertyName'] ??
+                                      'Property',
+                                  initiallyLiked: rental['post']
+                                          ?['isFavorited'] ??
+                                      rental['isFavorited'] ??
+                                      false,
+                                  initialLikeCount: rental['post']
+                                          ?['favoriteCount'] ??
+                                      rental['favoriteCount'] ??
+                                      0,
                                 ),
                               ),
                             ],
@@ -301,7 +330,7 @@ class RentalsCarousel extends StatelessWidget {
 
   IconData _getPropertyIcon(String? type) {
     if (type == null) return Icons.home;
-    
+
     switch (type.toLowerCase()) {
       case 'apartment':
         return Icons.apartment;
@@ -326,7 +355,7 @@ class RentalsCarousel extends StatelessWidget {
             width: 150,
             height: 24,
             decoration: BoxDecoration(
-              color: theme.colorScheme.surfaceVariant,
+              color: theme.colorScheme.surfaceContainerHighest,
               borderRadius: BorderRadius.circular(4),
             ),
           ),
@@ -344,7 +373,8 @@ class RentalsCarousel extends StatelessWidget {
                 child: Card(
                   child: Container(
                     decoration: BoxDecoration(
-                      color: theme.colorScheme.surfaceVariant.withOpacity(0.3),
+                      color: theme.colorScheme.surfaceContainerHighest
+                          .withOpacity(0.3),
                       borderRadius: BorderRadius.circular(12),
                     ),
                   ),

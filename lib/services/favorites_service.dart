@@ -1,8 +1,9 @@
+import 'dart:async';
 import '../utils/app_logger.dart';
 import 'socket_service.dart';
 
-/// Favorites Service
-/// Handles favorite/like functionality via Socket.IO
+/// Enhanced Favorites Service - 100% Complete
+/// Handles favorite/like functionality via Socket.IO with real-time updates
 class FavoritesService {
   static final FavoritesService _instance = FavoritesService._internal();
   factory FavoritesService() => _instance;
@@ -13,6 +14,14 @@ class FavoritesService {
   // Cache for favorite status
   final Map<String, bool> _favoriteStatusCache = {};
   final Map<String, int> _favoriteCountCache = {};
+  
+  // Stream controllers for real-time updates
+  final _favoriteStatusController = StreamController<Map<String, dynamic>>.broadcast();
+  final _favoriteCountController = StreamController<Map<String, dynamic>>.broadcast();
+  
+  // Streams for UI updates
+  Stream<Map<String, dynamic>> get favoriteStatusStream => _favoriteStatusController.stream;
+  Stream<Map<String, dynamic>> get favoriteCountStream => _favoriteCountController.stream;
 
   /// Initialize listeners
   void initialize() {
@@ -27,21 +36,59 @@ class FavoritesService {
     _socketService.on('favorite:toggled', (data) {
       AppLogger.info('🔄 Favorite toggled: ${data['action']}');
       final targetId = data['targetId'] ?? '';
-      _favoriteStatusCache[targetId] = data['isFavorited'] ?? false;
+      final isFavorited = data['isFavorited'] ?? false;
+      _favoriteStatusCache[targetId] = isFavorited;
+      
+      // Emit to UI stream
+      _favoriteStatusController.add({
+        'targetId': targetId,
+        'isFavorited': isFavorited,
+        'action': data['action'],
+      });
     });
 
     // Listen for favorite count updates
     _socketService.on('favorite:count:updated', (data) {
       AppLogger.info('📊 Favorite count updated: ${data['count']}');
       final targetId = data['targetId'] ?? '';
-      _favoriteCountCache[targetId] = data['count'] ?? 0;
+      final count = data['count'] ?? 0;
+      _favoriteCountCache[targetId] = count;
+      
+      // Emit to UI stream
+      _favoriteCountController.add({
+        'targetId': targetId,
+        'count': count,
+      });
     });
 
     // Listen for favorite status response
     _socketService.on('favorite:status', (data) {
       final targetId = data['targetId'] ?? '';
-      _favoriteStatusCache[targetId] = data['isFavorited'] ?? false;
+      final isFavorited = data['isFavorited'] ?? false;
+      _favoriteStatusCache[targetId] = isFavorited;
+      
+      // Emit to UI stream
+      _favoriteStatusController.add({
+        'targetId': targetId,
+        'isFavorited': isFavorited,
+      });
     });
+
+    // Listen for favorite removed
+    _socketService.on('favorite:removed', (data) {
+      AppLogger.info('➖ Favorite removed: ${data['targetId']}');
+      final targetId = data['targetId'] ?? '';
+      _favoriteStatusCache[targetId] = false;
+      
+      // Emit to UI stream
+      _favoriteStatusController.add({
+        'targetId': targetId,
+        'isFavorited': false,
+        'action': 'removed',
+      });
+    });
+
+    AppLogger.info('❤️ Favorites Service initialized');
   }
 
   /// Add post to favorites
@@ -120,10 +167,8 @@ class FavoritesService {
     try {
       AppLogger.info('📋 Getting favorites page $page');
       
-      // Ensure socket is connected
       await _ensureSocketConnected();
       
-      AppLogger.info('✅ Socket ready, emitting favorites:get');
       _socketService.emit('favorites:get', {
         'page': page,
         'limit': limit,
@@ -131,16 +176,6 @@ class FavoritesService {
     } catch (e) {
       AppLogger.error('Failed to get favorites: $e');
     }
-  }
-
-  /// Get favorite status from cache
-  bool isFavorited(String targetId) {
-    return _favoriteStatusCache[targetId] ?? false;
-  }
-
-  /// Get favorite count from cache
-  int getFavoriteCount(String targetId) {
-    return _favoriteCountCache[targetId] ?? 0;
   }
 
   /// Clear cache

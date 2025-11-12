@@ -276,7 +276,7 @@ class _ExpandableCategoryCardState extends State<_ExpandableCategoryCard>
                 width: double.infinity,
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: widget.theme.colorScheme.surfaceVariant.withOpacity(0.3),
+                  color: widget.theme.colorScheme.surfaceContainerHighest.withOpacity(0.3),
                   borderRadius: const BorderRadius.vertical(bottom: Radius.circular(16)),
                 ),
                 child: widget.isLoadingDetails

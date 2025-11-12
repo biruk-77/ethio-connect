@@ -208,7 +208,7 @@ class _VerificationHistoryScreenState extends State<VerificationHistoryScreen> {
                       height: 60,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
-                        color: theme.colorScheme.surfaceVariant,
+                        color: theme.colorScheme.surfaceContainerHighest,
                       ),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(8),
@@ -233,7 +233,7 @@ class _VerificationHistoryScreenState extends State<VerificationHistoryScreen> {
                       height: 60,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
-                        color: theme.colorScheme.surfaceVariant,
+                        color: theme.colorScheme.surfaceContainerHighest,
                       ),
                       child: const Icon(Icons.description, size: 32),
                     ),
@@ -275,7 +275,7 @@ class _VerificationHistoryScreenState extends State<VerificationHistoryScreen> {
                 Container(
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
-                    color: theme.colorScheme.surfaceVariant.withOpacity(0.5),
+                    color: theme.colorScheme.surfaceContainerHighest.withOpacity(0.5),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Row(

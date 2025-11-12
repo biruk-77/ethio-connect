@@ -20,7 +20,9 @@ class ServicesCarousel extends StatelessWidget {
       return _buildLoadingShimmer(theme);
     }
 
-    final countText = services.length == 1 ? '1 service found' : '${services.length} services';
+    final countText = services.length == 1
+        ? '1 service found'
+        : '${services.length} services';
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -58,7 +60,8 @@ class ServicesCarousel extends StatelessWidget {
                     margin: const EdgeInsets.symmetric(horizontal: 16.0),
                     padding: const EdgeInsets.all(24.0),
                     decoration: BoxDecoration(
-                      color: theme.colorScheme.surfaceVariant.withOpacity(0.3),
+                      color: theme.colorScheme.surfaceContainerHighest
+                          .withOpacity(0.3),
                       borderRadius: BorderRadius.circular(12),
                       border: Border.all(
                         color: theme.colorScheme.outline.withOpacity(0.2),
@@ -70,7 +73,8 @@ class ServicesCarousel extends StatelessWidget {
                         Icon(
                           Icons.handyman_outlined,
                           size: 48,
-                          color: theme.colorScheme.onSurfaceVariant.withOpacity(0.5),
+                          color: theme.colorScheme.onSurfaceVariant
+                              .withOpacity(0.5),
                         ),
                         const SizedBox(height: 12),
                         Text(
@@ -86,7 +90,8 @@ class ServicesCarousel extends StatelessWidget {
                           'Check back later for new services',
                           style: TextStyle(
                             fontSize: 12,
-                            color: theme.colorScheme.onSurfaceVariant.withOpacity(0.7),
+                            color: theme.colorScheme.onSurfaceVariant
+                                .withOpacity(0.7),
                           ),
                         ),
                       ],
@@ -107,7 +112,8 @@ class ServicesCarousel extends StatelessWidget {
     );
   }
 
-  Widget _buildServiceCard(BuildContext context, dynamic service, ThemeData theme) {
+  Widget _buildServiceCard(
+      BuildContext context, dynamic service, ThemeData theme) {
     return Container(
       width: 260,
       margin: const EdgeInsets.symmetric(horizontal: 4.0),
@@ -152,7 +158,9 @@ class ServicesCarousel extends StatelessWidget {
                               ),
                             ),
                           Text(
-                            service['title'] ?? service['serviceName'] ?? 'Service',
+                            service['title'] ??
+                                service['serviceName'] ??
+                                'Service',
                             style: const TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.bold,
@@ -163,8 +171,10 @@ class ServicesCarousel extends StatelessWidget {
                         ],
                       ),
                     ),
-                    if (service['post']?['isFavorited'] == true || service['isFavorited'] == true)
-                      Icon(Icons.bookmark, color: theme.colorScheme.primary, size: 16),
+                    if (service['post']?['isFavorited'] == true ||
+                        service['isFavorited'] == true)
+                      Icon(Icons.bookmark,
+                          color: theme.colorScheme.primary, size: 16),
                   ],
                 ),
                 const SizedBox(height: 8),
@@ -194,11 +204,22 @@ class ServicesCarousel extends StatelessWidget {
                     Transform.scale(
                       scale: 0.85,
                       child: PostLikeButton(
-                        postId: service['post']?['_id'] ?? service['post']?['id'] ?? service['id'] ?? '',
-                        postOwnerId: service['post']?['userId'] ?? service['userId'] ?? '',
-                        postTitle: service['title'] ?? service['serviceName'] ?? 'Service',
-                        initiallyLiked: service['post']?['isFavorited'] ?? service['isFavorited'] ?? false,
-                        initialLikeCount: service['post']?['favoriteCount'] ?? service['favoriteCount'] ?? 0,
+                        postId: service['post']?['_id'] ??
+                            service['post']?['id'] ??
+                            service['id'] ??
+                            '',
+                        postOwnerId: service['post']?['userId'] ??
+                            service['userId'] ??
+                            '',
+                        postTitle: service['title'] ??
+                            service['serviceName'] ??
+                            'Service',
+                        initiallyLiked: service['post']?['isFavorited'] ??
+                            service['isFavorited'] ??
+                            false,
+                        initialLikeCount: service['post']?['favoriteCount'] ??
+                            service['favoriteCount'] ??
+                            0,
                       ),
                     ),
                     const SizedBox(width: 4),
@@ -228,7 +249,7 @@ class ServicesCarousel extends StatelessWidget {
 
   IconData _getServiceIcon(String? type) {
     if (type == null) return Icons.handyman;
-    
+
     switch (type.toLowerCase()) {
       case 'professional':
         return Icons.business_center;
@@ -253,7 +274,7 @@ class ServicesCarousel extends StatelessWidget {
             width: 150,
             height: 24,
             decoration: BoxDecoration(
-              color: theme.colorScheme.surfaceVariant,
+              color: theme.colorScheme.surfaceContainerHighest,
               borderRadius: BorderRadius.circular(4),
             ),
           ),
@@ -271,7 +292,8 @@ class ServicesCarousel extends StatelessWidget {
                 child: Card(
                   child: Container(
                     decoration: BoxDecoration(
-                      color: theme.colorScheme.surfaceVariant.withOpacity(0.3),
+                      color: theme.colorScheme.surfaceContainerHighest
+                          .withOpacity(0.3),
                       borderRadius: BorderRadius.circular(12),
                     ),
                   ),

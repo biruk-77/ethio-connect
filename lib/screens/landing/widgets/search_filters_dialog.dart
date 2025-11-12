@@ -175,7 +175,7 @@ class _SearchFiltersDialogState extends State<SearchFiltersDialog> {
 
   Widget _buildCategorySelector(ThemeData theme) {
     return DropdownButtonFormField<String>(
-      value: filters['categoryId'],
+      initialValue: filters['categoryId'],
       decoration: InputDecoration(
         hintText: 'Select category',
         border: OutlineInputBorder(
@@ -202,7 +202,7 @@ class _SearchFiltersDialogState extends State<SearchFiltersDialog> {
 
   Widget _buildRegionSelector(ThemeData theme) {
     return DropdownButtonFormField<String>(
-      value: filters['regionId'],
+      initialValue: filters['regionId'],
       decoration: InputDecoration(
         hintText: 'Select region',
         border: OutlineInputBorder(
@@ -235,7 +235,7 @@ class _SearchFiltersDialogState extends State<SearchFiltersDialog> {
     }).toList();
     
     return DropdownButtonFormField<String>(
-      value: filters['cityId'],
+      initialValue: filters['cityId'],
       decoration: InputDecoration(
         hintText: 'Select city',
         border: OutlineInputBorder(
@@ -312,7 +312,7 @@ class _SearchFiltersDialogState extends State<SearchFiltersDialog> {
     return Column(
       children: [
         DropdownButtonFormField<String>(
-          value: filters['sortBy'] ?? 'createdAt',
+          initialValue: filters['sortBy'] ?? 'createdAt',
           decoration: InputDecoration(
             hintText: 'Sort by',
             border: OutlineInputBorder(

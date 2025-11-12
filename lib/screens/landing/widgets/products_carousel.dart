@@ -26,8 +26,10 @@ class ProductsCarousel extends StatelessWidget {
     if (products.isEmpty) {
       return const SizedBox.shrink();
     }
-    
-    final countText = products.length == 1 ? '1 product found' : '${products.length} products';
+
+    final countText = products.length == 1
+        ? '1 product found'
+        : '${products.length} products';
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -65,7 +67,8 @@ class ProductsCarousel extends StatelessWidget {
                     margin: const EdgeInsets.symmetric(horizontal: 16.0),
                     padding: const EdgeInsets.all(24.0),
                     decoration: BoxDecoration(
-                      color: theme.colorScheme.surfaceVariant.withOpacity(0.3),
+                      color: theme.colorScheme.surfaceContainerHighest
+                          .withOpacity(0.3),
                       borderRadius: BorderRadius.circular(12),
                       border: Border.all(
                         color: theme.colorScheme.outline.withOpacity(0.2),
@@ -77,7 +80,8 @@ class ProductsCarousel extends StatelessWidget {
                         Icon(
                           Icons.shopping_bag_outlined,
                           size: 48,
-                          color: theme.colorScheme.onSurfaceVariant.withOpacity(0.5),
+                          color: theme.colorScheme.onSurfaceVariant
+                              .withOpacity(0.5),
                         ),
                         const SizedBox(height: 12),
                         Text(
@@ -93,7 +97,8 @@ class ProductsCarousel extends StatelessWidget {
                           'Check back later for new items',
                           style: TextStyle(
                             fontSize: 12,
-                            color: theme.colorScheme.onSurfaceVariant.withOpacity(0.7),
+                            color: theme.colorScheme.onSurfaceVariant
+                                .withOpacity(0.7),
                           ),
                         ),
                       ],
@@ -114,7 +119,8 @@ class ProductsCarousel extends StatelessWidget {
     );
   }
 
-  Widget _buildProductCard(BuildContext context, dynamic product, ThemeData theme) {
+  Widget _buildProductCard(
+      BuildContext context, dynamic product, ThemeData theme) {
     // Parse product from JSON if needed
     Product productModel;
     if (product is Product) {
@@ -122,14 +128,15 @@ class ProductsCarousel extends StatelessWidget {
     } else {
       productModel = Product.fromJson(product);
     }
-    
+
     final post = productModel.post;
     final title = post?.title ?? 'Product';
     final price = post?.price ?? '0';
     final pictures = productModel.pictures;
     // Access isFavorited from raw product data
-    final isFavorited = product is Map ? (product['isFavorited'] ?? false) : false;
-    
+    final isFavorited =
+        product is Map ? (product['isFavorited'] ?? false) : false;
+
     return Container(
       width: 200,
       margin: const EdgeInsets.symmetric(horizontal: 4.0),
@@ -152,11 +159,14 @@ class ProductsCarousel extends StatelessWidget {
                   width: double.infinity,
                   height: 110,
                   fit: BoxFit.cover,
-                  borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
+                  borderRadius:
+                      const BorderRadius.vertical(top: Radius.circular(12)),
                   placeholder: Container(
                     decoration: BoxDecoration(
-                      color: theme.colorScheme.primaryContainer.withOpacity(0.3),
-                      borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
+                      color:
+                          theme.colorScheme.primaryContainer.withOpacity(0.3),
+                      borderRadius:
+                          const BorderRadius.vertical(top: Radius.circular(12)),
                     ),
                     child: Center(
                       child: Icon(
@@ -183,9 +193,11 @@ class ProductsCarousel extends StatelessWidget {
                             Row(
                               children: [
                                 Container(
-                                  padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 4, vertical: 2),
                                   decoration: BoxDecoration(
-                                    color: _getConditionColor(productModel.condition),
+                                    color: _getConditionColor(
+                                        productModel.condition),
                                     borderRadius: BorderRadius.circular(4),
                                   ),
                                   child: Text(
@@ -199,10 +211,13 @@ class ProductsCarousel extends StatelessWidget {
                                 ),
                                 const Spacer(),
                                 if (isFavorited)
-                                  Icon(Icons.bookmark, color: theme.colorScheme.primary, size: 12),
+                                  Icon(Icons.bookmark,
+                                      color: theme.colorScheme.primary,
+                                      size: 12),
                                 const SizedBox(width: 2),
                                 if (productModel.allowOffers)
-                                  const Icon(Icons.local_offer, size: 10, color: Colors.orange),
+                                  const Icon(Icons.local_offer,
+                                      size: 10, color: Colors.orange),
                               ],
                             ),
                             const SizedBox(height: 3),
@@ -240,7 +255,8 @@ class ProductsCarousel extends StatelessWidget {
                                 // Chat button
                                 ChatWithPosterButton(
                                   posterId: product['userId'] ?? '',
-                                  posterName: product['user']?['displayName'] ?? 'Seller',
+                                  posterName: product['user']?['displayName'] ??
+                                      'Seller',
                                   posterPhotoUrl: product['user']?['photoURL'],
                                   itemType: 'product',
                                   compact: true,
@@ -296,7 +312,7 @@ class ProductsCarousel extends StatelessWidget {
             width: 150,
             height: 24,
             decoration: BoxDecoration(
-              color: theme.colorScheme.surfaceVariant,
+              color: theme.colorScheme.surfaceContainerHighest,
               borderRadius: BorderRadius.circular(4),
             ),
           ),
@@ -314,7 +330,8 @@ class ProductsCarousel extends StatelessWidget {
                 child: Card(
                   child: Container(
                     decoration: BoxDecoration(
-                      color: theme.colorScheme.surfaceVariant.withOpacity(0.3),
+                      color: theme.colorScheme.surfaceContainerHighest
+                          .withOpacity(0.3),
                       borderRadius: BorderRadius.circular(12),
                     ),
                   ),

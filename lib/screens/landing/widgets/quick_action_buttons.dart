@@ -13,48 +13,147 @@ class QuickActionButtons extends StatelessWidget {
 
   List<Map<String, dynamic>> _getActions() {
     final actions = <Map<String, dynamic>>[];
+    
+    // Define user status
+    final isLoggedIn = currentUser != null;
+    final isVerified = isLoggedIn && (currentUser!.roles.isNotEmpty);
 
-    // Create Post - Only for logged in users
-    if (currentUser != null) {
-      actions.add({
-        'id': 'create_post',
-        'name': 'Create Post',
-        'emoji': '✏️',
-        'color': const Color(0xFF4CAF50),
-        'route': '/posts/create',
-      });
-    }
+    // Create Post - Always available
+    actions.add({
+      'id': 'create_post',
+      'name': 'Create Post',
+      'emoji': '✍️',
+      'color': const Color(0xFF2196F3),
+      'route': '/posts/create',
+    });
 
     // Messages - Only for logged in users
-    if (currentUser != null) {
+    if (isLoggedIn) {
       actions.add({
         'id': 'messages',
         'name': 'Messages',
         'emoji': '💬',
-        'color': const Color(0xFFFF9800),
+        'color': const Color(0xFF4CAF50),
         'route': '/messages',
       });
     }
 
-    // Verification Center - Only for logged in users
-    if (currentUser != null) {
+    // VERIFIED USER FEATURES - Show prominently for verified users
+    if (isVerified) {
+      // Special Offers - Verified users get priority access
       actions.add({
-        'id': 'verification',
-        'name': 'Verification',
+        'id': 'offers',
+        'name': 'Special Offers',
+        'emoji': '🎁',
+        'color': const Color(0xFFFF5722),
+        'route': '/offers',
+        'premium': true,
+      });
+
+      // Professional Services - For verified professionals
+      actions.add({
+        'id': 'services',
+        'name': 'Pro Services',
+        'emoji': '🔧',
+        'color': const Color(0xFF00BCD4),
+        'route': '/services',
+        'premium': true,
+      });
+
+      // Premium Rentals - Verified landlords/tenants
+      actions.add({
+        'id': 'rentals',
+        'name': 'Premium Rentals',
+        'emoji': '🏠',
+        'color': const Color(0xFF4CAF50),
+        'route': '/rentals',
+        'premium': true,
+      });
+
+      // Verified Matchmaking - Enhanced dating for verified users
+      actions.add({
+        'id': 'matchmaking',
+        'name': 'Verified Dating',
+        'emoji': '💕',
+        'color': const Color(0xFFE91E63),
+        'route': '/matchmaking',
+        'premium': true,
+      });
+    } else if (isLoggedIn) {
+      // LOGGED IN BUT NOT VERIFIED - Show basic access
+      actions.add({
+        'id': 'offers',
+        'name': 'Offers',
+        'emoji': '🎁',
+        'color': const Color(0xFFFF5722),
+        'route': '/offers',
+      });
+
+      actions.add({
+        'id': 'services',
+        'name': 'Services',
+        'emoji': '🔧',
+        'color': const Color(0xFF00BCD4),
+        'route': '/services',
+      });
+
+      actions.add({
+        'id': 'rentals',
+        'name': 'Rentals',
+        'emoji': '🏠',
+        'color': const Color(0xFF4CAF50),
+        'route': '/rentals',
+      });
+
+      actions.add({
+        'id': 'matchmaking',
+        'name': 'Dating',
+        'emoji': '💕',
+        'color': const Color(0xFFE91E63),
+        'route': '/matchmaking',
+      });
+    } else {
+      // GUEST USERS - Limited access with prompts to login
+      actions.add({
+        'id': 'offers',
+        'name': 'View Offers',
+        'emoji': '🎁',
+        'color': const Color(0xFFFF5722),
+        'route': '/offers',
+        'requiresLogin': true,
+      });
+
+      actions.add({
+        'id': 'services',
+        'name': 'Browse Services',
+        'emoji': '🔧',
+        'color': const Color(0xFF00BCD4),
+        'route': '/services',
+        'requiresLogin': true,
+      });
+    }
+
+    // Verification Center - Show prominently for unverified logged-in users
+    if (isLoggedIn && !isVerified) {
+      actions.add({
+        'id': 'verify',
+        'name': 'Get Verified',
         'emoji': '✅',
-        'color': const Color(0xFF2196F3),
+        'color': const Color(0xFFFFC107),
         'route': '/verification/center',
+        'priority': true,
       });
     }
 
     // My Profile - Only for logged in users
-    if (currentUser != null) {
+    if (isLoggedIn) {
       actions.add({
         'id': 'profile',
-        'name': 'My Profile',
-        'emoji': '👤',
-        'color': const Color(0xFF9C27B0),
+        'name': isVerified ? 'Verified Profile' : 'My Profile',
+        'emoji': isVerified ? '👑' : '👤',
+        'color': isVerified ? const Color(0xFFFFD700) : const Color(0xFF9C27B0),
         'route': '/profile',
+        'premium': isVerified,
       });
     }
 
@@ -87,6 +186,29 @@ class QuickActionButtons extends StatelessWidget {
     }
 
     return actions;
+  }
+
+  void _showLoginPrompt(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Login Required'),
+        content: const Text('Please log in to access this feature.'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pop(context);
+              Navigator.pushNamed(context, '/auth/login');
+            },
+            child: const Text('Login'),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -129,9 +251,14 @@ class QuickActionButtons extends StatelessWidget {
                 title: action['name'],
                 color: action['color'],
                 isDark: isDark,
-                isHighlighted: action['id'] == 'create_post', // Highlight Create Post
+                isHighlighted: action['priority'] == true || action['premium'] == true,
+                isPremium: action['premium'] == true,
                 onTap: () {
-                  Navigator.pushNamed(context, action['route']);
+                  if (action['requiresLogin'] == true && currentUser == null) {
+                    _showLoginPrompt(context);
+                  } else {
+                    Navigator.pushNamed(context, action['route']);
+                  }
                 },
               );
             },
@@ -148,6 +275,7 @@ class _QuickActionCard extends StatelessWidget {
   final Color color;
   final bool isDark;
   final bool isHighlighted;
+  final bool isPremium;
   final VoidCallback onTap;
 
   const _QuickActionCard({
@@ -156,6 +284,7 @@ class _QuickActionCard extends StatelessWidget {
     required this.color,
     required this.isDark,
     this.isHighlighted = false,
+    this.isPremium = false,
     required this.onTap,
   });
 
@@ -194,30 +323,60 @@ class _QuickActionCard extends StatelessWidget {
               ),
             ],
           ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+          child: Stack(
             children: [
-              Text(
-                emoji,
-                style: TextStyle(
-                  fontSize: isHighlighted ? 40 : 32,
-                ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    emoji,
+                    style: TextStyle(
+                      fontSize: isHighlighted ? 40 : 32,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    child: Text(
+                      title,
+                      textAlign: TextAlign.center,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontSize: 13,
+                        fontWeight: isHighlighted ? FontWeight.w800 : FontWeight.bold,
+                        color: isDark ? Colors.white : color,
+                      ),
+                    ),
+                  ),
+                ],
               ),
-              const SizedBox(height: 8),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                child: Text(
-                  title,
-                  textAlign: TextAlign.center,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    fontSize: 13,
-                    fontWeight: isHighlighted ? FontWeight.w800 : FontWeight.bold,
-                    color: isDark ? Colors.white : color,
+              if (isPremium)
+                Positioned(
+                  top: 8,
+                  right: 8,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                    decoration: BoxDecoration(
+                      color: Colors.amber,
+                      borderRadius: BorderRadius.circular(8),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.amber.withOpacity(0.3),
+                          blurRadius: 4,
+                          offset: const Offset(0, 2),
+                        ),
+                      ],
+                    ),
+                    child: const Text(
+                      '⭐',
+                      style: TextStyle(
+                        fontSize: 10,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
                 ),
-              ),
             ],
           ),
         ),

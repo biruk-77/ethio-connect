@@ -33,8 +33,8 @@ class _MatchmakingScreenState extends State<MatchmakingScreen> {
     if (_isAuthenticated) {
       final roles = await _authService.getMyRoles();
       _hasMatchmakerRole = roles.any((role) => 
-        (role.role?.name?.toLowerCase() ?? '') == 'matchmaker' || 
-        (role.role?.name?.toLowerCase() ?? '') == 'verified'
+        (role.role?.name.toLowerCase() ?? '') == 'matchmaker' || 
+        (role.role?.name.toLowerCase() ?? '') == 'verified'
       );
       if (mounted) setState(() {});
     }

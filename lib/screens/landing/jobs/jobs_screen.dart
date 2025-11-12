@@ -3,10 +3,11 @@ import '../../../widgets/post_like_button.dart';
 import '../../../services/auth/auth_service.dart';
 import '../../../theme/app_colors.dart';
 import '../categories/post_details_sheet.dart';
+import '../../reports/reports_screen.dart';
 
 class JobsScreen extends StatefulWidget {
   final List<dynamic> jobs;
-  
+
   const JobsScreen({
     super.key,
     required this.jobs,
@@ -30,14 +31,13 @@ class _JobsScreenState extends State<JobsScreen> {
   Future<void> _checkAuth() async {
     // Check authentication
     _isAuthenticated = await _authService.isAuthenticated();
-    
+
     // Check if user has employer role
     if (_isAuthenticated) {
       final roles = await _authService.getMyRoles();
-      _hasEmployerRole = roles.any((role) => 
-        (role.role?.name?.toLowerCase() ?? '') == 'employer' || 
-        (role.role?.name?.toLowerCase() ?? '') == 'business'
-      );
+      _hasEmployerRole = roles.any((role) =>
+          (role.role?.name.toLowerCase() ?? '') == 'employer' ||
+          (role.role?.name.toLowerCase() ?? '') == 'business');
       if (mounted) setState(() {});
     }
   }
@@ -47,7 +47,7 @@ class _JobsScreenState extends State<JobsScreen> {
       _showLoginPrompt();
       return;
     }
-    
+
     if (!_hasEmployerRole) {
       _showApplyForRoleDialog();
     }
@@ -133,7 +133,7 @@ class _JobsScreenState extends State<JobsScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    
+
     return Scaffold(
       appBar: AppBar(
         title: const Row(
@@ -158,54 +158,75 @@ class _JobsScreenState extends State<JobsScreen> {
                 );
               },
             ),
+          IconButton(
+            icon: const Icon(Icons.flag_outlined),
+            tooltip: 'My Reports',
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const ReportsScreen(),
+                ),
+              );
+            },
+          ),
         ],
       ),
       body: widget.jobs.isEmpty
-              ? _buildEmptyState()
-              : ListView.builder(
-                    padding: const EdgeInsets.all(16),
-                    itemCount: widget.jobs.length,
-                    itemBuilder: (context, index) {
-                      final jobPost = widget.jobs[index];
-                      final post = jobPost['post'] ?? {};
-                      final title = post['title'] ?? jobPost['title'] ?? 'Job Position';
-                      final description = post['description'] ?? jobPost['description'] ?? '';
-                      final company = jobPost['company'] ?? 'Company';
-                      
-                      return Card(
-                        margin: const EdgeInsets.only(bottom: 12),
-                        child: ListTile(
-                          leading: const Icon(Icons.work, size: 40, color: Colors.blue),
-                          title: Text(title),
-                          subtitle: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                company,
-                                style: const TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              Text(
-                                description,
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              const SizedBox(height: 8),
-                              // Like button
-                              PostLikeButton(
-                                postId: post['_id'] ?? post['id'] ?? jobPost['id'] ?? '',
-                                postOwnerId: post['userId'] ?? jobPost['userId'] ?? '',
-                                postTitle: title,
-                                initiallyLiked: post['isFavorited'] ?? jobPost['isFavorited'] ?? false,
-                                initialLikeCount: post['favoriteCount'] ?? jobPost['favoriteCount'] ?? 0,
-                              ),
-                            ],
-                          ),
-                          trailing: const Icon(Icons.arrow_forward_ios, size: 16),
-                          onTap: () => _showPostDetails(jobPost),
+          ? _buildEmptyState()
+          : ListView.builder(
+              padding: const EdgeInsets.all(16),
+              itemCount: widget.jobs.length,
+              itemBuilder: (context, index) {
+                final jobPost = widget.jobs[index];
+                final post = jobPost['post'] ?? {};
+                final title =
+                    post['title'] ?? jobPost['title'] ?? 'Job Position';
+                final description =
+                    post['description'] ?? jobPost['description'] ?? '';
+                final company = jobPost['company'] ?? 'Company';
+
+                return Card(
+                  margin: const EdgeInsets.only(bottom: 12),
+                  child: ListTile(
+                    leading:
+                        const Icon(Icons.work, size: 40, color: Colors.blue),
+                    title: Text(title),
+                    subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          company,
+                          style: const TextStyle(fontWeight: FontWeight.bold),
                         ),
-                      );
-                    },
+                        Text(
+                          description,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        const SizedBox(height: 8),
+                        // Like button
+                        PostLikeButton(
+                          postId:
+                              post['_id'] ?? post['id'] ?? jobPost['id'] ?? '',
+                          postOwnerId:
+                              post['userId'] ?? jobPost['userId'] ?? '',
+                          postTitle: title,
+                          initiallyLiked: post['isFavorited'] ??
+                              jobPost['isFavorited'] ??
+                              false,
+                          initialLikeCount: post['favoriteCount'] ??
+                              jobPost['favoriteCount'] ??
+                              0,
+                        ),
+                      ],
+                    ),
+                    trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+                    onTap: () => _showPostDetails(jobPost),
                   ),
+                );
+              },
+            ),
       floatingActionButton: _isAuthenticated
           ? FloatingActionButton.extended(
               onPressed: _hasEmployerRole
@@ -221,7 +242,8 @@ class _JobsScreenState extends State<JobsScreen> {
                   : _showApplyDialog,
               backgroundColor: AppColors.primary,
               icon: Icon(_hasEmployerRole ? Icons.add : Icons.work),
-              label: Text(_hasEmployerRole ? 'Post a Job' : 'Become an Employer'),
+              label:
+                  Text(_hasEmployerRole ? 'Post a Job' : 'Become an Employer'),
             )
           : null,
     );

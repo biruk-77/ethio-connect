@@ -34,8 +34,8 @@ class _EventsScreenState extends State<EventsScreen> {
     if (_isAuthenticated) {
       final roles = await _authService.getMyRoles();
       _hasOrganizerRole = roles.any((role) => 
-        (role.role?.name?.toLowerCase() ?? '') == 'event organizer' || 
-        (role.role?.name?.toLowerCase() ?? '') == 'organizer'
+        (role.role?.name.toLowerCase() ?? '') == 'event organizer' || 
+        (role.role?.name.toLowerCase() ?? '') == 'organizer'
       );
       if (mounted) setState(() {});
     }

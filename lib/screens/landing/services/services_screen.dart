@@ -33,8 +33,8 @@ class _ServicesScreenState extends State<ServicesScreen> {
     if (_isAuthenticated) {
       final roles = await _authService.getMyRoles();
       _hasProviderRole = roles.any((role) => 
-        (role.role?.name?.toLowerCase() ?? '') == 'service provider' || 
-        (role.role?.name?.toLowerCase() ?? '') == 'professional'
+        (role.role?.name.toLowerCase() ?? '') == 'service provider' || 
+        (role.role?.name.toLowerCase() ?? '') == 'professional'
       );
       if (mounted) setState(() {});
     }

@@ -47,7 +47,8 @@ class PostsCarousel extends StatelessWidget {
                   ),
                   const SizedBox(width: 8),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                     decoration: BoxDecoration(
                       color: theme.colorScheme.primaryContainer,
                       borderRadius: BorderRadius.circular(12),
@@ -79,7 +80,8 @@ class PostsCarousel extends StatelessWidget {
                     margin: const EdgeInsets.symmetric(horizontal: 16.0),
                     padding: const EdgeInsets.all(24.0),
                     decoration: BoxDecoration(
-                      color: theme.colorScheme.surfaceVariant.withOpacity(0.3),
+                      color: theme.colorScheme.surfaceContainerHighest
+                          .withOpacity(0.3),
                       borderRadius: BorderRadius.circular(12),
                       border: Border.all(
                         color: theme.colorScheme.outline.withOpacity(0.2),
@@ -91,7 +93,8 @@ class PostsCarousel extends StatelessWidget {
                         Icon(
                           Icons.inbox_outlined,
                           size: 48,
-                          color: theme.colorScheme.onSurfaceVariant.withOpacity(0.5),
+                          color: theme.colorScheme.onSurfaceVariant
+                              .withOpacity(0.5),
                         ),
                         const SizedBox(height: 12),
                         Text(
@@ -107,7 +110,8 @@ class PostsCarousel extends StatelessWidget {
                           'Check back later for new content',
                           style: TextStyle(
                             fontSize: 12,
-                            color: theme.colorScheme.onSurfaceVariant.withOpacity(0.7),
+                            color: theme.colorScheme.onSurfaceVariant
+                                .withOpacity(0.7),
                           ),
                         ),
                       ],
@@ -155,7 +159,8 @@ class PostsCarousel extends StatelessWidget {
                 Row(
                   children: [
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8, vertical: 4),
                       decoration: BoxDecoration(
                         color: post['postType'] == 'offer'
                             ? Colors.green.shade100
@@ -175,7 +180,8 @@ class PostsCarousel extends StatelessWidget {
                     ),
                     const Spacer(),
                     if (post['isFavorited'] == true)
-                      Icon(Icons.bookmark, color: theme.colorScheme.primary, size: 16),
+                      Icon(Icons.bookmark,
+                          color: theme.colorScheme.primary, size: 16),
                     if (post['featured'] == true)
                       Icon(Icons.star, color: Colors.amber, size: 16),
                     if (post['verified'] == true)
@@ -256,7 +262,7 @@ class PostsCarousel extends StatelessWidget {
             width: 150,
             height: 24,
             decoration: BoxDecoration(
-              color: theme.colorScheme.surfaceVariant,
+              color: theme.colorScheme.surfaceContainerHighest,
               borderRadius: BorderRadius.circular(4),
             ),
           ),
@@ -274,7 +280,8 @@ class PostsCarousel extends StatelessWidget {
                 child: Card(
                   child: Container(
                     decoration: BoxDecoration(
-                      color: theme.colorScheme.surfaceVariant.withOpacity(0.3),
+                      color: theme.colorScheme.surfaceContainerHighest
+                          .withOpacity(0.3),
                       borderRadius: BorderRadius.circular(12),
                     ),
                   ),

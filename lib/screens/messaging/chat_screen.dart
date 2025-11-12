@@ -3,7 +3,6 @@ import 'dart:async';
 import '../../services/socket_service.dart';
 import '../../services/auth/auth_service.dart';
 import '../../models/message_model.dart';
-import '../../utils/app_logger.dart';
 import '../../theme/app_colors.dart';
 
 class ChatScreen extends StatefulWidget {

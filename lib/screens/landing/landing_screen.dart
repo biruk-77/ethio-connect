@@ -906,31 +906,190 @@ class _LandingScreenState extends State<LandingScreen> {
                   if (showAll || selected == 'job')
                     const SizedBox(height: 20),
                   
+                  // NEW VERIFIED USER FEATURES SECTION
+                  if (_currentUser != null && _roles.isNotEmpty) ...[
+                    // Verified User Header
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+                      child: Row(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              color: Colors.amber.withOpacity(0.2),
+                              borderRadius: BorderRadius.circular(12),
+                              border: Border.all(color: Colors.amber),
+                            ),
+                            child: const Icon(Icons.verified, color: Colors.amber, size: 24),
+                          ),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Verified Member Features',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: theme.colorScheme.primary,
+                                  ),
+                                ),
+                                Text(
+                                  'Premium access to all marketplace features',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: theme.colorScheme.onSurface.withOpacity(0.7),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                  
+                  // Special Offers Carousel - Show for all users with different access levels
+                  if (showAll || selected == 'offer') ...[
+                    Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 16),
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [Colors.orange.withOpacity(0.1), Colors.red.withOpacity(0.1)],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(color: Colors.orange.withOpacity(0.3)),
+                      ),
+                      child: Row(
+                        children: [
+                          const Text('🎁', style: TextStyle(fontSize: 32)),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  _currentUser != null && _roles.isNotEmpty
+                                      ? 'Exclusive Premium Offers'
+                                      : 'Special Offers',
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Text(
+                                  _currentUser != null && _roles.isNotEmpty
+                                      ? 'Access verified-only deals and discounts'
+                                      : 'Discover great deals and promotions',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.grey[600],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          ElevatedButton(
+                            onPressed: () => Navigator.pushNamed(context, '/offers'),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.orange,
+                              foregroundColor: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                            ),
+                            child: const Text('View All'),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                  ],
+
                   // Services Carousel - Show only when service category selected or showing all
-                  if (showAll || selected == 'service')
+                  if (showAll || selected == 'service') ...[
                     ServicesCarousel(
                       services: landingProvider.services,
                       isLoading: landingProvider.isLoadingServices,
                     ),
-                  
-                  if (showAll || selected == 'service')
                     const SizedBox(height: 20),
+                  ],
                   
                   // Rentals Carousel - Show only when rental category selected or showing all
-                  if (showAll || selected == 'rental')
+                  if (showAll || selected == 'rental') ...[
                     RentalsCarousel(
                       rentals: landingProvider.rentalListings,
                       isLoading: landingProvider.isLoadingRentals,
                     ),
-                  
-                  if (showAll || selected == 'rental')
                     const SizedBox(height: 20),
+                  ],
                   
-                  // Matchmaking Carousel - Show at bottom for all users
-                  MatchmakingCarousel(
-                    matchmakingPosts: landingProvider.matchmakingPosts,
-                    isLoading: landingProvider.isLoadingMatchmaking,
-                  ),
+                  // Matchmaking Carousel - Show with different access levels
+                  if (_currentUser != null) ...[
+                    Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 16),
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [Colors.pink.withOpacity(0.1), Colors.purple.withOpacity(0.1)],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(color: Colors.pink.withOpacity(0.3)),
+                      ),
+                      child: Row(
+                        children: [
+                          const Text('💕', style: TextStyle(fontSize: 32)),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  _roles.isNotEmpty
+                                      ? 'Verified Dating & Matchmaking'
+                                      : 'Dating & Matchmaking',
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Text(
+                                  _roles.isNotEmpty
+                                      ? 'Connect with verified members for authentic relationships'
+                                      : 'Find meaningful connections and relationships',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.grey[600],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          ElevatedButton(
+                            onPressed: () => Navigator.pushNamed(context, '/matchmaking'),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.pink,
+                              foregroundColor: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                            ),
+                            child: const Text('Explore'),
+                          ),
+                        ],
+                      ),
+                    ),
+                    MatchmakingCarousel(
+                      matchmakingPosts: landingProvider.matchmakingPosts,
+                      isLoading: landingProvider.isLoadingMatchmaking,
+                    ),
+                  ],
                   
                   const SizedBox(height: 32),
                 ]),

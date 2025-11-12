@@ -504,7 +504,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
             const Text('Category *', style: TextStyle(fontWeight: FontWeight.bold)),
             const SizedBox(height: 8),
             DropdownButtonFormField<String>(
-              value: _selectedCategoryId,
+              initialValue: _selectedCategoryId,
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
                 hintText: 'Select a category',
@@ -664,7 +664,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
             const Text('Region (Optional)', style: TextStyle(fontWeight: FontWeight.bold)),
             const SizedBox(height: 8),
             DropdownButtonFormField<String>(
-              value: _selectedRegionId,
+              initialValue: _selectedRegionId,
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
                 hintText: 'Select a region',
@@ -689,7 +689,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
               const Text('City (Optional)', style: TextStyle(fontWeight: FontWeight.bold)),
               const SizedBox(height: 8),
               DropdownButtonFormField<String>(
-                value: _selectedCityId,
+                initialValue: _selectedCityId,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   hintText: 'Select a city',

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../../../widgets/post_like_button.dart';
 import '../../../widgets/chat_with_poster_button.dart';
+import '../../../widgets/report_dialog.dart';
+import '../../../screens/comments/comments_screen.dart';
 
 class JobsCarousel extends StatelessWidget {
   final List<dynamic> jobs;
@@ -259,10 +261,46 @@ class JobsCarousel extends StatelessWidget {
                           itemType: 'job',
                           compact: true,
                         ),
+                        const SizedBox(width: 4),
+                        // Comment button
+                        IconButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => CommentsScreen(
+                                  targetType: 'Post',
+                                  targetId: post?['_id'] ?? post?['id'] ?? job['id'] ?? '',
+                                  targetTitle: title,
+                                  postOwnerId: post?['userId'] ?? job['userId'] ?? '',
+                                ),
+                              ),
+                            );
+                          },
+                          icon: const Icon(Icons.comment_outlined, size: 16),
+                          tooltip: 'Comments',
+                          padding: EdgeInsets.zero,
+                          constraints: const BoxConstraints(),
+                        ),
+                        // Report button
+                        IconButton(
+                          onPressed: () {
+                            ReportMenuItem.handleReport(
+                              context,
+                              targetType: 'Post',
+                              targetId: post?['_id'] ?? post?['id'] ?? job['id'] ?? '',
+                              targetTitle: title,
+                            );
+                          },
+                          icon: const Icon(Icons.flag_outlined, size: 14),
+                          tooltip: 'Report',
+                          padding: EdgeInsets.zero,
+                          constraints: const BoxConstraints(),
+                        ),
                         const Spacer(),
                         // Like button
                         Transform.scale(
-                          scale: 0.85,
+                          scale: 0.75,
                           child: PostLikeButton(
                             postId: post?['_id'] ?? post?['id'] ?? job['id'] ?? '',
                             postOwnerId: post?['userId'] ?? job['userId'] ?? '',

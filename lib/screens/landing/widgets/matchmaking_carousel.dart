@@ -130,7 +130,7 @@ class MatchmakingCarousel extends StatelessWidget {
               Container(
                 height: 100,
                 decoration: BoxDecoration(
-                  color: theme.colorScheme.surfaceVariant,
+                  color: theme.colorScheme.surfaceContainerHighest,
                   borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
                 ),
                 child: photoUrl != null
@@ -292,7 +292,7 @@ class MatchmakingCarousel extends StatelessWidget {
             width: 150,
             height: 24,
             decoration: BoxDecoration(
-              color: theme.colorScheme.surfaceVariant,
+              color: theme.colorScheme.surfaceContainerHighest,
               borderRadius: BorderRadius.circular(4),
             ),
           ),
@@ -310,7 +310,7 @@ class MatchmakingCarousel extends StatelessWidget {
                 child: Card(
                   child: Container(
                     decoration: BoxDecoration(
-                      color: theme.colorScheme.surfaceVariant.withOpacity(0.3),
+                      color: theme.colorScheme.surfaceContainerHighest.withOpacity(0.3),
                       borderRadius: BorderRadius.circular(12),
                     ),
                   ),
