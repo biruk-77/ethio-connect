@@ -134,6 +134,7 @@ class EnhancedNotificationService {
               userId: notification.userId,
               type: notification.type,
               title: notification.title,
+
               message: notification.message,
               isRead: true,
               category: notification.category,
