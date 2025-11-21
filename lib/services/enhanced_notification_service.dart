@@ -6,7 +6,8 @@ import '../models/notification_model.dart';
 /// Enhanced Notification Service - 100% Complete
 /// Advanced notification features and real-time push notifications
 class EnhancedNotificationService {
-  static final EnhancedNotificationService _instance = EnhancedNotificationService._internal();
+  static final EnhancedNotificationService _instance =
+      EnhancedNotificationService._internal();
   factory EnhancedNotificationService() => _instance;
   EnhancedNotificationService._internal();
 
@@ -17,42 +18,51 @@ class EnhancedNotificationService {
   final Map<String, AppNotification> _notificationCache = {};
   final Map<String, int> _categoryUnreadCounts = {};
   final Map<String, bool> _notificationSettings = {};
-  
+
   int _totalUnreadCount = 0;
-  
+
   // Stream controllers for enhanced features
   final _notificationController = StreamController<AppNotification>.broadcast();
-  final _unreadCountController = StreamController<Map<String, dynamic>>.broadcast();
-  final _categoryCountController = StreamController<Map<String, int>>.broadcast();
-  final _notificationActionController = StreamController<Map<String, dynamic>>.broadcast();
-  
+  final _unreadCountController =
+      StreamController<Map<String, dynamic>>.broadcast();
+  final _categoryCountController =
+      StreamController<Map<String, int>>.broadcast();
+  final _notificationActionController =
+      StreamController<Map<String, dynamic>>.broadcast();
+
   // Streams for UI updates
-  Stream<AppNotification> get notificationStream => _notificationController.stream;
-  Stream<Map<String, dynamic>> get unreadCountStream => _unreadCountController.stream;
-  Stream<Map<String, int>> get categoryCountStream => _categoryCountController.stream;
-  Stream<Map<String, dynamic>> get notificationActionStream => _notificationActionController.stream;
+  Stream<AppNotification> get notificationStream =>
+      _notificationController.stream;
+  Stream<Map<String, dynamic>> get unreadCountStream =>
+      _unreadCountController.stream;
+  Stream<Map<String, int>> get categoryCountStream =>
+      _categoryCountController.stream;
+  Stream<Map<String, dynamic>> get notificationActionStream =>
+      _notificationActionController.stream;
 
   // Getters
   List<AppNotification> get notifications => List.unmodifiable(_notifications);
   int get totalUnreadCount => _totalUnreadCount;
-  Map<String, int> get categoryUnreadCounts => Map.unmodifiable(_categoryUnreadCounts);
+  Map<String, int> get categoryUnreadCounts =>
+      Map.unmodifiable(_categoryUnreadCounts);
 
   /// Initialize enhanced notification listeners
   void initialize() {
     // Listen for new notifications with enhanced data
     _socketService.on('notification:new', (data) {
       AppLogger.info('🔔 New notification: ${data['type']} - ${data['title']}');
-      
+
       final notification = AppNotification.fromJson(data);
       _notifications.insert(0, notification);
       _notificationCache[notification.id] = notification;
-      
+
       // Update unread counts
       if (!notification.isRead) {
         _totalUnreadCount++;
         final category = notification.data?['category'] ?? 'general';
-        _categoryUnreadCounts[category] = (_categoryUnreadCounts[category] ?? 0) + 1;
-        
+        _categoryUnreadCounts[category] =
+            (_categoryUnreadCounts[category] ?? 0) + 1;
+
         // Emit count updates
         _unreadCountController.add({
           'total': _totalUnreadCount,
@@ -61,40 +71,45 @@ class EnhancedNotificationService {
         });
         _categoryCountController.add(_categoryUnreadCounts);
       }
-      
+
       // Emit notification to stream
       _notificationController.add(notification);
     });
 
     // Listen for notification read status updates
     _socketService.on('notification:read:updated', (data) {
-      AppLogger.info('👁️ Notification read status updated: ${data['notificationId']}');
-      
+      AppLogger.info(
+          '👁️ Notification read status updated: ${data['notificationId']}');
+
       final notificationId = data['notificationId'];
       final isRead = data['isRead'] ?? true;
-      
+
       // Update cached notification
       final notification = _notificationCache[notificationId];
       if (notification != null) {
         final updatedNotification = notification.copyWith(
           isRead: isRead,
         );
-        
+
         _notificationCache[notificationId] = updatedNotification;
-        
+
         // Update in main list
         final index = _notifications.indexWhere((n) => n.id == notificationId);
         if (index >= 0) {
           _notifications[index] = updatedNotification;
         }
-        
+
         // Update unread counts
         if (isRead && !notification.isRead) {
           // Notification was marked as read
-          _totalUnreadCount = (_totalUnreadCount - 1).clamp(0, double.infinity).toInt();
+          _totalUnreadCount =
+              (_totalUnreadCount - 1).clamp(0, double.infinity).toInt();
           final category = notification.category ?? 'general';
-          _categoryUnreadCounts[category] = ((_categoryUnreadCounts[category] ?? 1) - 1).clamp(0, double.infinity).toInt();
-          
+          _categoryUnreadCounts[category] =
+              ((_categoryUnreadCounts[category] ?? 1) - 1)
+                  .clamp(0, double.infinity)
+                  .toInt();
+
           // Emit count updates
           _unreadCountController.add({
             'total': _totalUnreadCount,
@@ -108,8 +123,9 @@ class EnhancedNotificationService {
 
     // Listen for notification actions (button clicks, etc.)
     _socketService.on('notification:action:triggered', (data) {
-      AppLogger.info('🎯 Notification action triggered: ${data['action']} on ${data['notificationId']}');
-      
+      AppLogger.info(
+          '🎯 Notification action triggered: ${data['action']} on ${data['notificationId']}');
+
       // Emit to action stream
       _notificationActionController.add({
         'notificationId': data['notificationId'],
@@ -120,11 +136,12 @@ class EnhancedNotificationService {
 
     // Listen for bulk notification operations
     _socketService.on('notification:bulk:updated', (data) {
-      AppLogger.info('📦 Bulk notification update: ${data['action']} on ${data['count']} notifications');
-      
+      AppLogger.info(
+          '📦 Bulk notification update: ${data['action']} on ${data['count']} notifications');
+
       final action = data['action'];
       final affectedIds = List<String>.from(data['notificationIds'] ?? []);
-      
+
       if (action == 'mark_all_read') {
         // Mark all as read
         for (var notification in _notifications) {
@@ -134,7 +151,7 @@ class EnhancedNotificationService {
               userId: notification.userId,
               type: notification.type,
               title: notification.title,
-
+              body: notification.body,
               message: notification.message,
               isRead: true,
               category: notification.category,
@@ -144,15 +161,15 @@ class EnhancedNotificationService {
               metadata: notification.metadata,
               createdAt: notification.createdAt,
             );
-            
+
             _notificationCache[notification.id] = updatedNotification;
           }
         }
-        
+
         // Reset unread counts
         _totalUnreadCount = 0;
         _categoryUnreadCounts.clear();
-        
+
         // Emit count updates
         _unreadCountController.add({
           'total': 0,
@@ -166,7 +183,8 @@ class EnhancedNotificationService {
     // Listen for notification settings updates
     _socketService.on('notification:settings:updated', (data) {
       AppLogger.info('⚙️ Notification settings updated');
-      _notificationSettings.addAll(Map<String, bool>.from(data['settings'] ?? {}));
+      _notificationSettings
+          .addAll(Map<String, bool>.from(data['settings'] ?? {}));
     });
 
     AppLogger.info('🔔✨ Enhanced Notification Service initialized');
@@ -186,9 +204,9 @@ class EnhancedNotificationService {
   }) async {
     try {
       AppLogger.info('📤 Sending custom notification to: $userId');
-      
+
       await _ensureSocketConnected();
-      
+
       _socketService.emit('notification:send', {
         'userId': userId,
         'type': type,
@@ -209,9 +227,9 @@ class EnhancedNotificationService {
   Future<void> markAsRead(String notificationId) async {
     try {
       AppLogger.info('👁️ Marking notification as read: $notificationId');
-      
+
       await _ensureSocketConnected();
-      
+
       _socketService.emit('notification:read', {
         'notificationId': notificationId,
       });
@@ -223,10 +241,11 @@ class EnhancedNotificationService {
   /// Mark all notifications as read
   Future<void> markAllAsRead({String? category}) async {
     try {
-      AppLogger.info('👁️ Marking all notifications as read${category != null ? ' in category: $category' : ''}');
-      
+      AppLogger.info(
+          '👁️ Marking all notifications as read${category != null ? ' in category: $category' : ''}');
+
       await _ensureSocketConnected();
-      
+
       _socketService.emit('notification:mark_all_read', {
         if (category != null) 'category': category,
       });
@@ -239,13 +258,13 @@ class EnhancedNotificationService {
   Future<void> deleteNotification(String notificationId) async {
     try {
       AppLogger.info('🗑️ Deleting notification: $notificationId');
-      
+
       await _ensureSocketConnected();
-      
+
       _socketService.emit('notification:delete', {
         'notificationId': notificationId,
       });
-      
+
       // Remove from local cache
       _notifications.removeWhere((n) => n.id == notificationId);
       _notificationCache.remove(notificationId);
@@ -263,15 +282,16 @@ class EnhancedNotificationService {
   }) async {
     try {
       AppLogger.info('⚙️ Updating notification settings');
-      
+
       await _ensureSocketConnected();
-      
+
       final settings = <String, dynamic>{};
       if (enablePush != null) settings['enablePush'] = enablePush;
       if (enableEmail != null) settings['enableEmail'] = enableEmail;
       if (enableSMS != null) settings['enableSMS'] = enableSMS;
-      if (categorySettings != null) settings['categorySettings'] = categorySettings;
-      
+      if (categorySettings != null)
+        settings['categorySettings'] = categorySettings;
+
       _socketService.emit('notification:settings:update', {
         'settings': settings,
       });
@@ -286,9 +306,9 @@ class EnhancedNotificationService {
   }) async {
     try {
       AppLogger.info('📊 Getting notification statistics for period: $period');
-      
+
       await _ensureSocketConnected();
-      
+
       _socketService.emit('notification:stats:get', {
         'period': period,
       });
@@ -304,10 +324,11 @@ class EnhancedNotificationService {
     Map<String, dynamic>? actionData,
   }) async {
     try {
-      AppLogger.info('🎯 Triggering notification action: $action on $notificationId');
-      
+      AppLogger.info(
+          '🎯 Triggering notification action: $action on $notificationId');
+
       await _ensureSocketConnected();
-      
+
       _socketService.emit('notification:action:trigger', {
         'notificationId': notificationId,
         'action': action,
